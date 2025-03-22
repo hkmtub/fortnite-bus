@@ -109,6 +109,7 @@ function updateCurrentTime() {
 // Update countdown and next buses
 let currentRoute = 0;
 let nextBus = null;
+let catFloating = true; // Track if cat is in floating mode
 function updateCountdown() {
     const schedule = busSchedules[currentRoute];
     const times = schedule.times.map(t => t.arrival);
@@ -134,12 +135,20 @@ function updateCountdown() {
     if (timeLeft > 0 && timeLeft < 30000 && !document.body.classList.contains("eco-mode")) document.getElementById("dramaticSound").play();
     if (timeLeft > 0 && timeLeft < 300000 && notifyOn) alert("Bus dropping in 5 minutes!");
 
-    // Show dancing cat at 5 minutes
+    // Handle cat GIF behavior
     const catGif = document.getElementById("catGif");
-    if (timeLeft > 290000 && timeLeft <= 300000 && !document.body.classList.contains("eco-mode")) {
+    if (catFloating && document.getElementById("loading").style.display === "none") {
+        // After loading screen, keep floating until 5-minute mark
+        if (timeLeft > 290000 && timeLeft <= 300000 && !document.body.classList.contains("eco-mode")) {
+            catFloating = false;
+            catGif.classList.add("countdown-mode");
+        }
+    } else if (timeLeft > 290000 && timeLeft <= 300000 && !document.body.classList.contains("eco-mode")) {
         catGif.style.display = "block";
+        catGif.classList.add("countdown-mode");
     } else {
         catGif.style.display = "none";
+        catGif.classList.remove("countdown-mode");
     }
 
     const nextThree = getNextThreeBuses(times);

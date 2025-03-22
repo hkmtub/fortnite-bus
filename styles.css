@@ -1,7 +1,10 @@
+/* Import Montserrat font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background-color: #f5f7fa;
-    color: #2c3e50;
+    color: #1a2b3c;
     margin: 0;
     padding: 20px;
     transition: all 0.3s ease;
@@ -31,16 +34,17 @@ header {
 }
 
 h1 {
-    font-family: 'Bangers', cursive;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
     font-size: 3em;
-    color: #e74c3c;
+    color: #d32f2f;
     margin: 0;
     text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 header p {
     font-size: 1.2em;
-    color: #7f8c8d;
+    color: #455a64;
 }
 
 .controls {
@@ -50,9 +54,11 @@ header p {
 button, select {
     padding: 12px 20px;
     font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
     cursor: pointer;
-    background-color: #3498db;
-    color: white;
+    background-color: #1976d2;
+    color: #ffffff;
     border: none;
     border-radius: 25px;
     transition: all 0.3s;
@@ -60,7 +66,7 @@ button, select {
 }
 
 button:hover, select:hover {
-    background-color: #2980b9;
+    background-color: #115293;
 }
 
 select {
@@ -75,6 +81,7 @@ select {
     font-size: 18px;
     padding: 15px;
     background-color: rgba(255, 255, 255, 0.9);
+    color: #1a2b3c;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     margin-bottom: 20px;
@@ -97,26 +104,39 @@ select {
 }
 
 .route-info h2 {
-    color: #e74c3c;
-    font-family: 'Bangers', cursive;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #d32f2f;
 }
 
 #countdown {
     font-size: 1.8em;
-    font-weight: bold;
-    color: #27ae60;
+    font-weight: 700;
+    color: #2e7d32;
     animation: pulse 1s infinite;
 }
 
 .cat-gif {
-    display: none;
     position: absolute;
     width: 100px;
     height: auto;
+    z-index: 10; /* Ensure it floats above other elements */
+    animation: floatAround 15s infinite ease-in-out; /* Initial floating animation */
+}
+
+@keyframes floatAround {
+    0% { top: 10%; left: 10%; }
+    25% { top: 30%; left: 70%; }
+    50% { top: 60%; left: 50%; }
+    75% { top: 20%; left: 20%; }
+    100% { top: 10%; left: 10%; }
+}
+
+.cat-gif.countdown-mode {
     top: 50%;
     right: -120px;
     transform: translateY(-50%);
-    animation: slideIn 0.5s forwards, bounce 1s infinite alternate;
+    animation: slideIn 0.5s forwards, bounce 1s infinite alternate; /* Switch to countdown behavior */
 }
 
 @keyframes slideIn {
@@ -135,6 +155,8 @@ select {
 
 .next-buses h3 {
     font-size: 1.2em;
+    font-weight: 700;
+    color: #1a2b3c;
     margin: 10px 0;
 }
 
@@ -146,6 +168,7 @@ select {
 #nextBusesList li {
     padding: 5px;
     background: #ecf0f1;
+    color: #1a2b3c;
     margin: 5px 0;
     border-radius: 5px;
 }
@@ -163,7 +186,7 @@ select {
 
 #excuse {
     font-style: italic;
-    color: #7f8c8d;
+    color: #546e7a;
     margin-top: 10px;
 }
 
@@ -181,6 +204,7 @@ select {
 
 .modal-content {
     background-color: #fff;
+    color: #1a2b3c;
     margin: 10% auto;
     padding: 20px;
     border-radius: 10px;
@@ -193,32 +217,59 @@ select {
 .close {
     float: right;
     font-size: 24px;
+    color: #1a2b3c;
     cursor: pointer;
 }
 
 /* Dark Mode */
 body.dark-mode {
-    background-color: #2c3e50;
-    color: #ecf0f1;
+    background-color: #263238;
+    color: #eceff1;
 }
 
 body.dark-mode .background {
-    background: linear-gradient(135deg, #34495e, #2c3e50);
+    background: linear-gradient(135deg, #37474f, #263238);
 }
 
 body.dark-mode .route-info,
 body.dark-mode .modal-content {
-    background-color: rgba(52, 73, 94, 0.95);
+    background-color: rgba(55, 71, 79, 0.95);
+    color: #eceff1;
 }
 
 body.dark-mode .loading {
-    background-color: rgba(52, 73, 94, 0.95);
+    background-color: rgba(55, 71, 79, 0.95);
+    color: #eceff1;
+}
+
+body.dark-mode h1,
+body.dark-mode .route-info h2 {
+    color: #ff5252;
+}
+
+body.dark-mode header p,
+body.dark-mode #excuse {
+    color: #b0bec5;
+}
+
+body.dark-mode .next-buses h3,
+body.dark-mode #nextBusesList li,
+body.dark-mode .close {
+    color: #eceff1;
+}
+
+body.dark-mode #nextBusesList li {
+    background: #455a64;
+}
+
+body.dark-mode #countdown {
+    color: #66bb6a;
 }
 
 /* Darker Mode (Despair Mode) */
 body.darker-mode {
     background-color: #1a1a1a;
-    color: #e74c3c;
+    color: #ff8a80;
 }
 
 body.darker-mode .background {
@@ -228,10 +279,36 @@ body.darker-mode .background {
 body.darker-mode .route-info,
 body.darker-mode .modal-content {
     background-color: rgba(44, 44, 44, 0.95);
+    color: #ff8a80;
 }
 
 body.darker-mode .loading {
     background-color: rgba(44, 44, 44, 0.95);
+    color: #ff8a80;
+}
+
+body.darker-mode h1,
+body.darker-mode .route-info h2 {
+    color: #ef5350;
+}
+
+body.darker-mode header p,
+body.darker-mode #excuse {
+    color: #ffccbc;
+}
+
+body.darker-mode .next-buses h3,
+body.darker-mode #nextBusesList li,
+body.darker-mode .close {
+    color: #ff8a80;
+}
+
+body.darker-mode #nextBusesList li {
+    background: #424242;
+}
+
+body.darker-mode #countdown {
+    color: #81c784;
 }
 
 /* Eco Mode */
@@ -241,5 +318,5 @@ body.eco-mode .background {
 }
 
 body.eco-mode .cat-gif {
-    display: none !important; /* Disable cat in Eco Mode */
+    display: none !important;
 }

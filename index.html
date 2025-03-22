@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortnite Bus - Drop In On Time</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Bangers&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background"></div>
+    <header>
+        <h1>Fortnite Bus</h1>
+        <p>Drop In On Time</p>
+        <div class="controls">
+            <button id="modeToggle">Toggle Dark Mode</button>
+            <button id="ecoToggle">Eco Mode</button>
+            <button id="notifyToggle" aria-label="Toggle Notifications">🔔</button>
+        </div>
+        <p id="currentTime"></p>
+    </header>
+
+    <div id="loading" class="loading">Dropping into the bus zone…</div>
+
+    <div class="container">
+        <select id="routeSelect" aria-label="Select Bus Route">
+            <option value="0">University Union → Leroy & Murray Streets</option>
+            <option value="1">University Downtown Center → Leroy & Murray Streets</option>
+            <option value="2">Leroy & Murray Streets → University Downtown Center</option>
+        </select>
+
+        <div class="route-info">
+            <h2 id="routeName"></h2>
+            <p>Next bus drops at: <span id="nextBus"></span></p>
+            <p>Time to drop: <span id="countdown"></span></p>
+            <img id="catGif" src="images/dancing-cat.gif" alt="Dancing Cat" class="cat-gif">
+            <div class="next-buses">
+                <h3>Next 3 Buses</h3>
+                <ul id="nextBusesList"></ul>
+            </div>
+            <button class="caught">I Dropped In!</button>
+            <button class="full-schedule">View Full Schedule</button>
+        </div>
+
+        <div class="fun-features">
+            <button id="tryLuck">Try Your Luck (Get a Drop Excuse)</button>
+            <p id="excuse"></p>
+        </div>
+    </div>
+
+    <div id="scheduleModal" class="modal">
+        <div class="modal-content">
+            <span class="close" aria-label="Close">×</span>
+            <h2>Full Bus Schedule</h2>
+            <div id="fullSchedule"></div>
+        </div>
+    </div>
+
+    <audio id="missedBusSound" src="sounds/sad-trombone.mp3"></audio>
+    <audio id="caughtBusSound" src="sounds/victory-royale.mp3"></audio>
+    <audio id="dramaticSound" src="sounds/fortnite-drop.mp3"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>

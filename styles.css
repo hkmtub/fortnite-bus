@@ -1,10 +1,10 @@
-/* Import Montserrat font */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+/* Import Poppins font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #F5F5F5;
-    color: #000000;
+    font-family: 'Poppins', sans-serif;
+    background-color: #E3F2FD;
+    color: #212121;
     margin: 0;
     padding: 0;
     height: 100vh;
@@ -19,7 +19,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #87ceeb, #4682b4);
+    background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
     z-index: -1;
 }
 
@@ -30,15 +30,15 @@ body {
     width: 100%;
     background-color: #FFFFFF;
     text-align: center;
-    padding: 10px 0;
+    padding: 12px 0;
     z-index: 10;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 .app-header h1 {
     font-weight: 700;
-    font-size: 1.5rem;
-    color: #d32f2f;
+    font-size: 1.6rem;
+    color: #FF5722;
     margin: 0;
 }
 
@@ -55,11 +55,15 @@ body {
 .card {
     background-color: #FFFFFF;
     padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
     width: 90%;
-    max-width: 350px;
+    max-width: 360px;
     text-align: center;
+    border: 1px solid transparent;
+    background-image: linear-gradient(white, white), linear-gradient(135deg, #FF5722, #FF8A65);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
     animation: cardFadeIn 0.5s ease;
 }
 
@@ -70,56 +74,47 @@ body {
 
 /* Timer */
 .timer-wrapper {
-    position: relative;
-    width: 140px;
-    height: 140px;
-    margin: 0 auto 15px;
+    margin: 0 auto 20px;
 }
 
-.timer-circle {
-    transform: rotate(-90deg);
-}
-
-.timer-bg {
-    fill: none;
-    stroke: #E0E0E0;
-    stroke-width: 10;
+.timer-bar {
+    width: 100%;
+    height: 12px;
+    background-color: #E0E0E0;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 10px;
 }
 
 .timer-progress {
-    fill: none;
-    stroke: #FFC107;
-    stroke-width: 10;
-    stroke-linecap: round;
-    stroke-dasharray: 408.2; /* Circumference of circle (2 * π * 65) */
-    stroke-dashoffset: 408.2;
-    transition: stroke-dashoffset 1s linear;
+    height: 100%;
+    background: linear-gradient(90deg, #FF5722, #FF8A65);
+    width: 0;
+    transition: width 1s linear;
 }
 
 .timer-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 2rem;
-    font-weight: 700;
-    color: #000000;
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: #212121;
+    letter-spacing: 1px;
 }
 
 /* Route Picker */
 .route-picker {
-    margin: 10px 0;
+    margin: 15px 0;
 }
 
 #routeSelect {
     width: 100%;
-    padding: 10px;
-    font-size: 0.9rem;
-    font-family: 'Montserrat', sans-serif;
+    padding: 12px;
+    font-size: 0.95rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
     background-color: #F5F5F5;
-    color: #000000;
+    color: #212121;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
@@ -130,9 +125,10 @@ body {
 
 /* Bus Info */
 .card p {
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 1.1rem;
+    font-weight: 500;
     margin: 10px 0;
+    color: #212121;
 }
 
 .next-buses {
@@ -140,9 +136,10 @@ body {
 }
 
 .next-buses h3 {
-    font-size: 0.9rem;
-    font-weight: 700;
+    font-size: 0.95rem;
+    font-weight: 600;
     margin: 5px 0;
+    color: #212121;
 }
 
 #nextBusesList {
@@ -152,9 +149,10 @@ body {
 }
 
 #nextBusesList li {
-    font-size: 0.8rem;
-    padding: 5px 0;
-    color: #666666;
+    font-size: 0.85rem;
+    font-weight: 400;
+    padding: 6px 0;
+    color: #757575;
 }
 
 /* Footer */
@@ -163,41 +161,43 @@ body {
     bottom: 0;
     width: 100%;
     background-color: #FFFFFF;
-    padding: 10px 0;
+    padding: 12px 0;
     z-index: 10;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.08);
 }
 
 .controls {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 18px;
 }
 
 button {
-    padding: 10px;
-    font-size: 1.2rem;
-    font-family: 'Montserrat', sans-serif;
-    background-color: #FFC107;
-    color: #000000;
+    padding: 12px;
+    font-size: 1.3rem;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #FF5722, #FF8A65);
+    color: #FFFFFF;
     border: none;
     border-radius: 50%;
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     cursor: pointer;
     transition: all 0.3s;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
 }
 
 button:hover {
-    background-color: #FFB300;
     transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .joke {
-    font-size: 0.8rem;
-    color: #666666;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #757575;
     text-align: center;
-    margin: 5px 0;
+    margin: 8px 0;
 }
 
 /* Modal */
@@ -214,28 +214,33 @@ button:hover {
 
 .modal-content {
     background-color: #FFFFFF;
-    color: #000000;
+    color: #212121;
     margin: 15% auto;
     padding: 20px;
-    border-radius: 15px;
+    border-radius: 20px;
     width: 85%;
-    max-width: 350px;
+    max-width: 360px;
     max-height: 70vh;
     overflow-y: auto;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    border: 1px solid transparent;
+    background-image: linear-gradient(white, white), linear-gradient(135deg, #FF5722, #FF8A65);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
 }
 
 .close {
     float: right;
-    font-size: 24px;
-    color: #000000;
+    font-size: 26px;
+    color: #212121;
     cursor: pointer;
 }
 
 .modal-content h2 {
-    font-size: 1.2rem;
-    font-weight: 700;
+    font-size: 1.3rem;
+    font-weight: 600;
     margin: 0 0 15px;
+    color: #FF5722;
 }
 
 #fullSchedule ul {
@@ -245,8 +250,10 @@ button:hover {
 
 #fullSchedule li {
     font-size: 0.9rem;
-    padding: 5px 0;
+    font-weight: 400;
+    padding: 8px 0;
     border-bottom: 1px solid #E0E0E0;
+    color: #757575;
 }
 
 /* Dark Mode */
@@ -256,7 +263,7 @@ body.dark-mode {
 }
 
 body.dark-mode .background {
-    background: linear-gradient(135deg, #37474f, #263238);
+    background: linear-gradient(135deg, #37474F, #263238);
 }
 
 body.dark-mode .app-header,
@@ -265,10 +272,11 @@ body.dark-mode .card,
 body.dark-mode .modal-content {
     background-color: #37474F;
     color: #ECEFF1;
+    background-image: linear-gradient(#37474F, #37474F), linear-gradient(135deg, #FF5252, #FF8A80);
 }
 
 body.dark-mode .app-header h1,
-body.dark-mode .card h2 {
+body.dark-mode .modal-content h2 {
     color: #FF5252;
 }
 
@@ -279,12 +287,13 @@ body.dark-mode .next-buses h3 {
 }
 
 body.dark-mode #nextBusesList li,
-body.dark-mode .joke {
+body.dark-mode .joke,
+body.dark-mode #fullSchedule li {
     color: #B0BEC5;
 }
 
 body.dark-mode #routeSelect {
-    background: #455a64;
+    background: #455A64;
     color: #ECEFF1;
 }
 
@@ -293,7 +302,7 @@ body.dark-mode #routeSelect:hover {
 }
 
 body.dark-mode .timer-progress {
-    stroke: #66BB6A;
+    background: linear-gradient(90deg, #FF5252, #FF8A80);
 }
 
 /* Darker Mode */
@@ -312,10 +321,11 @@ body.darker-mode .card,
 body.darker-mode .modal-content {
     background-color: #2C2C2C;
     color: #FF8A80;
+    background-image: linear-gradient(#2C2C2C, #2C2C2C), linear-gradient(135deg, #EF5350, #FF8A80);
 }
 
 body.darker-mode .app-header h1,
-body.darker-mode .card h2 {
+body.darker-mode .modal-content h2 {
     color: #EF5350;
 }
 
@@ -326,7 +336,8 @@ body.darker-mode .next-buses h3 {
 }
 
 body.darker-mode #nextBusesList li,
-body.darker-mode .joke {
+body.darker-mode .joke,
+body.darker-mode #fullSchedule li {
     color: #FFCCBC;
 }
 
@@ -340,13 +351,13 @@ body.darker-mode #routeSelect:hover {
 }
 
 body.darker-mode .timer-progress {
-    stroke: #81C784;
+    background: linear-gradient(90deg, #EF5350, #FF8A80);
 }
 
 /* Responsive Adjustments */
 @media (max-width: 600px) {
     .app-header h1 {
-        font-size: 1.3rem;
+        font-size: 1.4rem;
     }
 
     .app-content {
@@ -357,49 +368,31 @@ body.darker-mode .timer-progress {
         padding: 15px;
     }
 
-    .timer-wrapper {
-        width: 120px;
-        height: 120px;
-    }
-
-    .timer-circle,
-    .timer-bg,
-    .timer-progress {
-        cx: 60;
-        cy: 60;
-        r: 55;
-    }
-
-    .timer-progress {
-        stroke-dasharray: 345.4; /* Circumference of smaller circle (2 * π * 55) */
-        stroke-dashoffset: 345.4;
-    }
-
     .timer-text {
-        font-size: 1.8rem;
+        font-size: 2rem;
     }
 
     .card p,
     .next-buses h3 {
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
 
     #nextBusesList li {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
     }
 
     #routeSelect {
-        font-size: 0.8rem;
-        padding: 8px;
+        font-size: 0.9rem;
+        padding: 10px;
     }
 
     button {
-        width: 40px;
-        height: 40px;
-        font-size: 1.1rem;
+        width: 44px;
+        height: 44px;
+        font-size: 1.2rem;
     }
 
     .joke {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
     }
 }

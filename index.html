@@ -6,6 +6,8 @@
     <title>Fortnite Bus</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="https://www.pngall.com/wp-content/uploads/5/Fortnite-Bus-PNG-Image.png">
+    <!-- Import Google Fonts for Fortnite-style typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Offline Banner -->
@@ -38,7 +40,6 @@
                     <button id="sundayToggle" class="toggle-button">Sunday</button>
                 </div>
             </div>
-            <p id="routeDescription"></p>
             <div class="live-tracking-link">
                 <a href="https://www.etaspot.net/service?stop_id=occt__UDC" target="_blank">Track Live on ETA SPOT</a>
             </div>
@@ -46,14 +47,13 @@
 
         <!-- Timer -->
         <section class="timer-section">
-            <div id="timerWrapper" class="timer">
+            <div class="timer">
                 <div class="timer-label">Next Bus Arrives At</div>
                 <div id="nextBus" class="timer-display">Loading...</div>
-                <div id="countdown" class="timer-display">Calculating...</div>
+                <div id="countdown" class="timer-countdown">Calculating...</div>
                 <div class="timer-progress">
                     <div id="timerProgress" class="timer-progress-fill"></div>
                 </div>
-                <div id="timerState" class="timer-state">Running</div>
             </div>
         </section>
 
@@ -80,7 +80,7 @@
     <!-- Full Schedule Modal -->
     <div id="scheduleModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close">×</span>
             <h2>Full Schedule</h2>
             <div id="fullSchedule"></div>
             <div class="modal-actions">
@@ -92,7 +92,7 @@
     <!-- Joke Modal -->
     <div id="jokeModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close">×</span>
             <h2>Here's a Joke!</h2>
             <p id="jokeText"></p>
             <div class="modal-actions">
@@ -107,7 +107,7 @@
     <!-- Missed Bus Modal -->
     <div id="missedBusModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close">×</span>
             <h2>Missed Buses Alert</h2>
             <p>You've missed <span id="missedBusCount">0</span> buses! Be more careful next time.</p>
             <div class="modal-actions">

@@ -21,22 +21,18 @@
     <main class="app-content">
         <div class="card timer-card">
             <div class="timer-wrapper" id="timerWrapper">
-                <div class="timer-circle">
-                    <div class="progress-ring">
-                        <div class="progress-ring__circle-bg"></div>
-                        <div id="timerProgress" class="progress-ring__circle"></div>
-                    </div>
-                    <div class="timer-text">
-                        <span id="countdown">
-                            <span class="flip-wrapper">
-                                <span id="minutes" class="flip-digit">0</span>m
-                            </span>
-                            <span class="flip-wrapper">
-                                <span id="seconds" class="flip-digit">0</span>s
-                            </span>
+                <div class="timer-text">
+                    <span id="countdown">
+                        <span class="flip-wrapper">
+                            <span id="minutes" class="flip-digit">0</span>m
                         </span>
-                        <span id="timerState" class="timer-state">⏸️</span>
-                    </div>
+                        <span class="flip-wrapper">
+                            <span id="seconds" class="flip-digit">0</span>s
+                        </span>
+                    </span>
+                </div>
+                <div class="progress-bar">
+                    <div id="timerProgress" class="progress-bar__fill"></div>
                 </div>
             </div>
         </div>
@@ -78,12 +74,6 @@
             <div id="fullSchedule"></div>
         </div>
     </div>
-
-    <!-- Audio -->
-    <audio id="missedBusSound" src="sounds/sad-trombone.mp3"></audio>
-    <audio id="caughtBusSound" src="sounds/victory-royale.mp3"></audio>
-    <audio id="dramaticSound" src="sounds/fortnite-drop.mp3"></audio>
-    <audio id="tickSound" src="sounds/tick.mp3"></audio>
 
     <script src="script.js"></script>
 </body>

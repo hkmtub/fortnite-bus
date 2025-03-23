@@ -130,6 +130,27 @@ window.addEventListener("click", (e) => {
     }
 });
 
+// Theme Preference Modal
+window.addEventListener('load', () => {
+    const themePreference = localStorage.getItem("themePreference");
+    if (!themePreference) {
+        document.getElementById("themeModal").style.display = "block";
+    } else {
+        document.body.classList.toggle("light-mode", themePreference === "light");
+    }
+});
+
+document.getElementById("keepDarkBtn").addEventListener("click", () => {
+    localStorage.setItem("themePreference", "dark");
+    document.getElementById("themeModal").style.display = "none";
+});
+
+document.getElementById("switchLightBtn").addEventListener("click", () => {
+    localStorage.setItem("themePreference", "light");
+    document.body.classList.add("light-mode");
+    document.getElementById("themeModal").style.display = "none";
+});
+
 // Bus Schedules (Hardcoded for now, can be replaced with dynamic data from OCC Transport)
 const busSchedules = [
     {
@@ -235,11 +256,18 @@ function getNextThreeBuses(times) {
 
 // Timer state
 let currentRoute = parseInt(localStorage.getItem("selectedRoute") || "0");
+let favoriteRoute = parseInt(localStorage.getItem("favoriteRoute") || "-1");
 let nextBus = null;
 let isPaused = false;
 let lastUpdate = Date.now();
 let timeLeft = 0;
+let delayMinutes = 0; // Mock delay for demonstration
 const BUS_INTERVAL = 15 * 60 * 1000; // 15-minute interval for progress bar
+
+// Initialize favorite route
+if (favoriteRoute !== -1) {
+    currentRoute = favoriteRoute;
+}
 
 // Update countdown and next buses
 function updateCountdown() {
@@ -251,6 +279,15 @@ function updateCountdown() {
 
     if (!nextBus || nextBus < new Date()) {
         nextBus = getNextBus(times);
+        // Simulate a delay (for demonstration purposes)
+        delayMinutes = Math.random() > 0.7 ? Math.floor(Math.random() * 10) + 1 : 0;
+        if (delayMinutes > 0) {
+            nextBus = new Date(nextBus.getTime() + delayMinutes * 60 * 1000);
+            document.getElementById("delayNotification").style.display = "block";
+            document.getElementById("delayMinutes").innerText = delayMinutes;
+        } else {
+            document.getElementById("delayNotification").style.display = "none";
+        }
         document.getElementById("nextBus").innerText = nextBus.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
         timeLeft = nextBus - now;
     }
@@ -261,144 +298,4 @@ function updateCountdown() {
     if (timeLeft <= 0) {
         let misses = parseInt(localStorage.getItem("misses") || "0") + 1;
         localStorage.setItem("misses", misses);
-        if (misses >= 3) {
-            const missedBusModal = document.getElementById("missedBusModal");
-            document.getElementById("missedBusCount").innerText = misses;
-            missedBusModal.style.display = "block";
-        }
-        nextBus = getNextBus(times);
-        document.getElementById("nextBus").innerText = nextBus.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-        timeLeft = nextBus - now;
-    }
-
-    const minutes = Math.floor(timeLeft / 60000);
-    const seconds = Math.floor((timeLeft % 60000) / 1000);
-
-    // Update timer display
-    document.getElementById("countdown").innerText = `${minutes}m ${seconds}s`;
-
-    // Vibrate when under 30 seconds
-    if (timeLeft > 0 && timeLeft < 30000) {
-        if (timeLeft < 10000 && 'vibrate' in navigator) {
-            navigator.vibrate([200, 100, 200]);
-        }
-        document.querySelector(".timer-display").classList.add("urgent");
-    } else {
-        document.querySelector(".timer-display").classList.remove("urgent");
-    }
-
-    // Update progress bar
-    const progressPercent = Math.max(0, (1 - timeLeft / BUS_INTERVAL)) * 100;
-    document.getElementById("timerProgress").style.width = `${progressPercent}%`;
-
-    const nextThree = getNextThreeBuses(times);
-    document.getElementById("nextBusesList").innerHTML = nextThree.map(t => `<li>${t.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</li>`).join('');
-}
-
-// Toggle pause/resume on timer click
-document.getElementById("timerWrapper").addEventListener("click", () => {
-    isPaused = !isPaused;
-    if (!isPaused) {
-        lastUpdate = Date.now();
-    }
-    const timerState = document.getElementById("timerState");
-    timerState.innerText = isPaused ? "Paused" : "Running";
-    timerState.classList.toggle("paused", isPaused);
-});
-
-// Route selection
-document.getElementById("routeSelect").addEventListener("change", (e) => {
-    currentRoute = parseInt(e.target.value);
-    localStorage.setItem("selectedRoute", currentRoute);
-    nextBus = null;
-    timeLeft = 0;
-    updateCountdown();
-});
-
-// Initialize route selection
-document.getElementById("routeSelect").value = currentRoute;
-
-// Refresh Button with Loading State
-document.getElementById("refreshBtn").addEventListener("click", () => {
-    const refreshBtn = document.getElementById("refreshBtn");
-    const icon = refreshBtn.querySelector(".button-icon");
-    const spinner = refreshBtn.querySelector(".button-spinner");
-    icon.style.display = "none";
-    spinner.style.display = "inline";
-    setTimeout(() => {
-        nextBus = null;
-        timeLeft = 0;
-        updateCountdown();
-        icon.style.display = "inline";
-        spinner.style.display = "none";
-    }, 1000);
-});
-
-// Full Schedule Modal
-const modal = document.getElementById("scheduleModal");
-document.getElementById("scheduleBtn").addEventListener("click", () => {
-    const schedule = busSchedules[currentRoute];
-    let html = "<ul>";
-    schedule.times.forEach(t => {
-        html += `<li>${t.departure} → ${t.arrival}</li>`;
-    });
-    html += "</ul>";
-    document.getElementById("fullSchedule").innerHTML = html;
-    modal.style.display = "block";
-});
-document.querySelector("#scheduleModal .close").addEventListener("click", () => modal.style.display = "none");
-window.addEventListener("click", (e) => { if (e.target === modal) modal.style.display = "none"; });
-
-// Copy Schedule to Clipboard
-document.getElementById("copyScheduleBtn").addEventListener("click", () => {
-    const schedule = busSchedules[currentRoute];
-    const scheduleText = schedule.times.map(t => `${t.departure} → ${t.arrival}`).join("\n");
-    navigator.clipboard.writeText(scheduleText).then(() => {
-        alert("Schedule copied to clipboard!");
-    });
-});
-
-// Missed Bus Modal
-document.getElementById("resetMissedBtn").addEventListener("click", () => {
-    localStorage.setItem("misses", "0");
-    document.getElementById("missedBusModal").style.display = "none";
-});
-document.getElementById("closeMissedBtn").addEventListener("click", () => {
-    document.getElementById("missedBusModal").style.display = "none";
-});
-document.querySelector("#missedBusModal .close").addEventListener("click", () => {
-    document.getElementById("missedBusModal").style.display = "none";
-});
-window.addEventListener("click", (e) => {
-    if (e.target === document.getElementById("missedBusModal")) {
-        document.getElementById("missedBusModal").style.display = "none";
-    }
-});
-
-// Offline Warning
-window.addEventListener('offline', () => {
-    document.getElementById("offlineBanner").style.display = "block";
-});
-window.addEventListener('online', () => {
-    document.getElementById("offlineBanner").style.display = "none";
-});
-
-// Adjust header padding when offline banner is visible
-function adjustHeaderPadding() {
-    const offlineBanner = document.getElementById("offlineBanner");
-    const header = document.querySelector(".header");
-    const routeSection = document.querySelector(".route-section");
-    if (offlineBanner.style.display === "block") {
-        header.style.top = "40px";
-        routeSection.style.top = "110px";
-    } else {
-        header.style.top = "0";
-        routeSection.style.top = "70px";
-    }
-}
-window.addEventListener('offline', adjustHeaderPadding);
-window.addEventListener('online', adjustHeaderPadding);
-
-// Initialize
-setInterval(updateCountdown, 1000);
-updateCountdown();
+        if (misse

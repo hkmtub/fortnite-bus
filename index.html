@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
-<body class="dark-mode">
+<body>
     <!-- Offline Banner -->
     <div id="offlineBanner" class="offline-banner" style="display: none;">
         You're offline! Bus times may not update.
@@ -31,25 +31,15 @@
                 </div>
                 <div class="timer-state" id="timerState">Running</div>
             </div>
-            <div id="delayNotification" class="delay-notification" style="display: none;">
-                Next bus delayed by <span id="delayMinutes"></span> minutes.
-            </div>
         </section>
 
         <section class="route-section" id="routeSection">
-            <div class="route-header">
-                <select id="routeSelect" aria-label="Select Bus Route">
-                    <option value="0">Union → Leroy & Murray</option>
-                    <option value="1">Downtown → Leroy & Murray</option>
-                    <option value="2">Leroy & Murray → Downtown</option>
-                </select>
-                <button id="favoriteBtn" class="favorite-btn" aria-label="Favorite this route">⭐</button>
-            </div>
+            <select id="routeSelect" aria-label="Select Bus Route">
+                <option value="0">Union → Leroy & Murray</option>
+                <option value="1">Downtown → Leroy & Murray</option>
+                <option value="2">Leroy & Murray → Downtown</option>
+            </select>
             <p>Next Bus: <span id="nextBus"></span></p>
-            <div class="route-actions">
-                <button id="mapBtn" class="action-btn">View on Map</button>
-                <button id="shareBtn" class="action-btn">Share</button>
-            </div>
         </section>
 
         <section class="next-buses-section">
@@ -101,18 +91,6 @@
             <p>You’ve missed <span id="missedBusCount"></span> buses! Better luck next time.</p>
             <button id="resetMissedBtn" class="modal-button">Reset Counter</button>
             <button id="closeMissedBtn" class="modal-button">Close</button>
-        </div>
-    </div>
-
-    <!-- Modal for Theme Preference -->
-    <div id="themeModal" class="modal">
-        <div class="modal-content">
-            <h2>Theme Preference</h2>
-            <p>This app uses a dark theme by default. Would you like to switch to light mode?</p>
-            <div class="modal-actions">
-                <button id="keepDarkBtn" class="modal-button">Keep Dark Mode</button>
-                <button id="switchLightBtn" class="modal-button">Switch to Light Mode</button>
-            </div>
         </div>
     </div>
 

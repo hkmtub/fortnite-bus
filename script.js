@@ -138,35 +138,18 @@ function updateCountdown() {
     const minutes = Math.floor(timeLeft / 60000);
     const seconds = Math.floor((timeLeft % 60000) / 1000);
 
-    // Update digits with flip animation
-    const minutesEl = document.getElementById("minutes");
-    const secondsEl = document.getElementById("seconds");
-    if (minutesEl.innerText !== minutes.toString()) {
-        minutesEl.classList.add("flipping");
-        minutesEl.setAttribute("data-old", minutesEl.innerText);
-        minutesEl.setAttribute("data-new", minutes);
-        minutesEl.innerText = minutes;
-    }
-    if (secondsEl.innerText !== seconds.toString()) {
-        secondsEl.classList.add("flipping");
-        secondsEl.setAttribute("data-old", secondsEl.innerText);
-        secondsEl.setAttribute("data-new", seconds);
-        secondsEl.innerText = seconds;
-    }
+    // Update timer display
+    document.getElementById("countdown").innerText = `${minutes}m ${seconds}s`;
 
     // Vibrate when under 30 seconds
     if (timeLeft > 0 && timeLeft < 30000) {
         if (timeLeft < 10000 && 'vibrate' in navigator) {
             navigator.vibrate([200, 100, 200]);
         }
-        document.querySelector(".timer-text").classList.add("urgent");
+        document.querySelector(".timer-display").classList.add("urgent");
     } else {
-        document.querySelector(".timer-text").classList.remove("urgent");
+        document.querySelector(".timer-display").classList.remove("urgent");
     }
-
-    // Notifications
-    if (timeLeft > 0 && timeLeft < 120000 && 'vibrate' in navigator) navigator.vibrate([500, 500]);
-    if (timeLeft > 0 && timeLeft < 300000 && notifyOn) alert("Bus dropping in 5 minutes!");
 
     // Update progress bar
     const progressPercent = Math.max(0, (1 - timeLeft / BUS_INTERVAL)) * 100;
@@ -192,31 +175,11 @@ document.getElementById("routeSelect").addEventListener("change", (e) => {
     updateCountdown();
 });
 
-// Dark Mode Toggle (Simplified for new design)
-let mode = 0; // Always dark mode for this design
-document.getElementById("modeToggle").addEventListener("click", () => {
-    alert("Dark mode is the default for this design!");
-});
-
-// Notification Toggle
-let notifyOn = false;
-document.getElementById("notifyToggle").addEventListener("click", () => {
-    notifyOn = !notifyOn;
-    document.getElementById("notifyToggle").innerText = notifyOn ? "🔕" : "🔔";
-});
-
 // Refresh Button
 document.getElementById("refreshBtn").addEventListener("click", () => {
     nextBus = null;
     timeLeft = 0;
     updateCountdown();
-});
-
-// Caught Bus Button
-document.getElementById("caughtBtn").addEventListener("click", () => {
-    nextBus = getNextBus(busSchedules[currentRoute].times.map(t => t.arrival));
-    document.getElementById("nextBus").innerText = nextBus.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-    timeLeft = nextBus - Date.now();
 });
 
 // Full Schedule Modal

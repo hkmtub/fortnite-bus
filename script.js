@@ -1,7 +1,7 @@
 // Bus Schedules
 const busSchedules = [
     {
-        route: "University Union → Leroy & Murray Streets",
+        route: "Union → Leroy & Murray",
         type: "arriving",
         times: [
             { departure: "7:00 AM", arrival: "7:11 AM" }, { departure: "7:30 AM", arrival: "7:41 AM" },
@@ -22,7 +22,7 @@ const busSchedules = [
         ]
     },
     {
-        route: "University Downtown Center → Leroy & Murray Streets",
+        route: "Downtown → Leroy & Murray",
         type: "arriving",
         times: [
             { departure: "7:40 AM", arrival: "7:43 AM" }, { departure: "7:45 AM", arrival: "7:48 AM" },
@@ -44,7 +44,7 @@ const busSchedules = [
         ]
     },
     {
-        route: "Leroy & Murray Streets → University Downtown Center",
+        route: "Leroy & Murray → Downtown",
         type: "arriving",
         times: [
             { departure: "7:11 AM", arrival: "7:18 AM" }, { departure: "7:41 AM", arrival: "7:48 AM" },
@@ -101,15 +101,10 @@ function getNextThreeBuses(times) {
     return upcoming;
 }
 
-// Update current time
-function updateCurrentTime() {
-    document.getElementById("currentTime").innerText = `Current Time: ${new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`;
-}
-
 // Update countdown and next buses
 let currentRoute = 0;
 let nextBus = null;
-const BUS_INTERVAL = 15 * 60 * 1000; // 15-minute interval for progress bar
+const BUS_INTERVAL = 15 * 60 * 1000; // 15-minute interval for progress ring
 function updateCountdown() {
     const schedule = busSchedules[currentRoute];
     const times = schedule.times.map(t => t.arrival);
@@ -131,16 +126,15 @@ function updateCountdown() {
     const minutes = Math.floor(timeLeft / 60000);
     const seconds = Math.floor((timeLeft % 60000) / 1000);
     document.getElementById("countdown").innerText = `${minutes}m ${seconds}s`;
-    if (timeLeft > 0 && timeLeft < 120000 && 'vibrate' in navigator && !document.body.classList.contains("eco-mode")) navigator.vibrate([500, 500]);
-    if (timeLeft > 0 && timeLeft < 30000 && !document.body.classList.contains("eco-mode")) document.getElementById("dramaticSound").play();
+    if (timeLeft > 0 && timeLeft < 120000 && 'vibrate' in navigator) navigator.vibrate([500, 500]);
+    if (timeLeft > 0 && timeLeft < 30000) document.getElementById("dramaticSound").play();
     if (timeLeft > 0 && timeLeft < 300000 && notifyOn) alert("Bus dropping in 5 minutes!");
 
-    // Update progress bar
-    const progressPercent = Math.max(0, (1 - timeLeft / BUS_INTERVAL) * 100);
-    document.getElementById("progressFill").style.width = `${progressPercent}%`;
-
-    // Update route name
-    document.getElementById("routeName").innerText = schedule.route;
+    // Update progress ring
+    const progressPercent = Math.max(0, (1 - timeLeft / BUS_INTERVAL));
+    const circumference = window.innerWidth <= 600 ? 345.4 : 439.6; // Adjust for responsive circle size
+    const offset = circumference * (1 - progressPercent);
+    document.getElementById("timerProgress").style.strokeDashoffset = offset;
 
     const nextThree = getNextThreeBuses(times);
     document.getElementById("nextBusesList").innerHTML = nextThree.map(t => `<li>${t.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</li>`).join('');
@@ -159,18 +153,8 @@ document.getElementById("modeToggle").addEventListener("click", () => {
     mode = (mode + 1) % 3;
     localStorage.setItem("mode", mode);
     document.body.className = mode === 1 ? "dark-mode" : mode === 2 ? "darker-mode" : "";
-    if (document.body.classList.contains("eco-mode")) document.body.classList.add("eco-mode");
 });
 document.body.className = mode === 1 ? "dark-mode" : mode === 2 ? "darker-mode" : "";
-
-// Eco Mode Toggle
-let ecoOn = localStorage.getItem("ecoOn") === "true";
-document.getElementById("ecoToggle").addEventListener("click", () => {
-    ecoOn = !ecoOn;
-    localStorage.setItem("ecoOn", ecoOn);
-    document.body.classList.toggle("eco-mode", ecoOn);
-});
-if (ecoOn) document.body.classList.add("eco-mode");
 
 // Notification Toggle
 let notifyOn = false;
@@ -185,64 +169,6 @@ document.getElementById("refreshBtn").addEventListener("click", () => {
     updateCountdown();
 });
 
-// Try Your Luck with 50 Jokes
-const universityJokes = [
-    "Why was the lecture late? The professor got lost in the syllabus!",
-    "I missed the bus because I was cramming for a nap!",
-    "Why don’t uni students run? They’re already late for everything!",
-    "The bus left me because my GPA was too low to board!",
-    "I was late because I had to finish my coffee thesis!",
-    "Why was the student tardy? He was stuck in a group project!",
-    "The bus driver said, ‘No late assignments accepted here!’",
-    "I missed class because I was researching the snooze button!",
-    "Why was the campus quiet? Everyone missed the bus!",
-    "I’m late because I was practicing for the procrastination finals!",
-    "The bus left me like my professor left my email unread!",
-    "Why was I late? I was debugging my sleep schedule!",
-    "I missed the bus because I was overanalyzing the timetable!",
-    "The lecture started without me, just like my motivation!",
-    "Why don’t I catch the bus? I’m still on last semester’s time!",
-    "I was late because I was perfecting my excuse essay!",
-    "The bus didn’t wait, just like my Wi-Fi during a Zoom call!",
-    "Why was I tardy? I was stuck in a textbook traffic jam!",
-    "I missed the bus because I was drafting my late pass!",
-    "The professor said, ‘Time waits for no one,’ but neither does the bus!",
-    "I was late because I was caught in a library vortex!",
-    "Why don’t I arrive on time? I’m still on dial-up deadlines!",
-    "The bus left me like my group mates left the project!",
-    "I missed it because I was busy failing my punctuality elective!",
-    "Why was I late? I was stuck in a caffeine queue!",
-    "The bus didn’t stop, just like my student loans don’t!",
-    "I was tardy because I was rewriting my alarm clock’s code!",
-    "Why miss the bus? I was debating existential deadlines!",
-    "I was late because I was stuck in a lecture loop!",
-    "The bus left me like my notes left my memory!",
-    "Why was I tardy? I was lost in the campus maze!",
-    "I missed the bus because I was practicing for the late-night finals!",
-    "The driver said, ‘No extra credit for being late!’",
-    "I was late because I was peer-reviewing my sleep!",
-    "Why don’t I catch buses? I’m still on syllabus week!",
-    "The bus left me like my professor left the grading rubric!",
-    "I missed it because I was stuck in a study coma!",
-    "Why was I late? I was negotiating with my bed!",
-    "I was tardy because I was drafting my tardiness appeal!",
-    "The bus didn’t wait, just like my deadlines don’t!",
-    "I missed it because I was lost in a lecture daydream!",
-    "Why was I late? I was stuck in a printer jam!",
-    "I was tardy because I was auditing my alarm clock!",
-    "The bus left me like my scholarship left my bank account!",
-    "I missed it because I was overclocking my coffee maker!",
-    "Why don’t I arrive? I’m still buffering from last term!",
-    "I was late because I was stuck in a procrastination spiral!",
-    "The bus didn’t stop, just like my prof didn’t stop lecturing!",
-    "I missed it because I was rewriting my morning script!",
-    "Why was I tardy? I was late to my own wake-up call!"
-];
-document.getElementById("tryLuck").addEventListener("click", () => {
-    const randomJoke = universityJokes[Math.floor(Math.random() * universityJokes.length)];
-    document.getElementById("randomJoke").innerText = randomJoke;
-});
-
 // Caught Bus Button
 document.getElementById("caughtBtn").addEventListener("click", () => {
     document.getElementById("caughtBusSound").play();
@@ -250,29 +176,11 @@ document.getElementById("caughtBtn").addEventListener("click", () => {
     document.getElementById("nextBus").innerText = nextBus.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 });
 
-// Full Schedule Modal
-const modal = document.getElementById("scheduleModal");
-document.getElementById("scheduleBtn").addEventListener("click", () => {
-    const schedule = busSchedules[currentRoute];
-    let html = "<ul>";
-    schedule.times.forEach(t => {
-        html += `<li>${t.departure} → ${t.arrival}</li>`;
-    });
-    html += "</ul>";
-    document.getElementById("fullSchedule").innerHTML = html;
-    modal.style.display = "block";
-});
-document.querySelector(".close").addEventListener("click", () => modal.style.display = "none");
-window.addEventListener("click", (e) => { if (e.target === modal) modal.style.display = "none"; });
-
 // Offline Warning
 window.addEventListener('offline', () => {
     alert("You're offline! Bus times may not update.");
 });
 
 // Initialize
-document.getElementById("routeName").innerText = busSchedules[0].route;
 setInterval(updateCountdown, 1000);
-setInterval(updateCurrentTime, 1000);
 updateCountdown();
-updateCurrentTime();

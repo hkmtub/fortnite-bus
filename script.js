@@ -109,8 +109,7 @@ function updateCurrentTime() {
 // Update countdown and next buses
 let currentRoute = 0;
 let nextBus = null;
-let catFloating = true;
-const BUS_INTERVAL = 15 * 60 * 1000; // Assume 15-minute intervals for progress bar (adjust as needed)
+const BUS_INTERVAL = 15 * 60 * 1000; // 15-minute interval for progress bar
 function updateCountdown() {
     const schedule = busSchedules[currentRoute];
     const times = schedule.times.map(t => t.arrival);
@@ -140,34 +139,36 @@ function updateCountdown() {
     const progressPercent = Math.max(0, (1 - timeLeft / BUS_INTERVAL) * 100);
     document.getElementById("progressFill").style.width = `${progressPercent}%`;
 
-    // Handle cat GIF behavior
-    const catGif = document.getElementById("catGif");
-    if (catFloating && document.getElementById("loading").style.display === "none") {
-        if (timeLeft > 290000 && timeLeft <= 300000 && !document.body.classList.contains("eco-mode")) {
-            catFloating = false;
-            catGif.classList.add("countdown-mode");
-        }
-    } else if (timeLeft > 290000 && timeLeft <= 300000 && !document.body.classList.contains("eco-mode")) {
-        catGif.style.display = "block";
-        catGif.classList.add("countdown-mode");
-    } else {
-        catGif.style.display = "none";
-        catGif.classList.remove("countdown-mode");
-    }
+    // Update current route display
+    document.getElementById("currentRoute").innerText = `${busSchedules[currentRoute].route}`;
 
     const nextThree = getNextThreeBuses(times);
     document.getElementById("nextBusesList").innerHTML = nextThree.map(t => `<li>${t.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</li>`).join('');
-    
-    // Update current route display
-    document.getElementById("currentRoute").innerText = `Route: ${busSchedules[currentRoute].route}`;
 }
 
-// Route selection
-document.getElementById("routeSelect").addEventListener("change", (e) => {
-    currentRoute = parseInt(e.target.value);
-    document.getElementById("routeName").innerText = busSchedules[currentRoute].route;
-    nextBus = null;
-    updateCountdown();
+// Route selection (via modal for simplicity)
+document.getElementById("scheduleBtn").addEventListener("click", () => {
+    const modal = document.getElementById("scheduleModal");
+    const schedule = busSchedules[currentRoute];
+    let html = "<ul>";
+    schedule.times.forEach((t, index) => {
+        html += `<li data-index="${index}" class="schedule-item">${t.departure} → ${t.arrival}</li>`;
+    });
+    html += "</ul>";
+    document.getElementById("fullSchedule").innerHTML = html;
+    modal.style.display = "block";
+
+    // Add click listeners to schedule items
+    document.querySelectorAll(".schedule-item").forEach(item => {
+        item.addEventListener("click", () => {
+            const nextTime = parseTime(schedule.times[item.dataset.index].arrival);
+            if (nextTime > new Date()) {
+                nextBus = nextTime;
+                document.getElementById("nextBus").innerText = nextBus.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+            }
+            modal.style.display = "none";
+        });
+    });
 });
 
 // Dark Mode Toggle
@@ -215,26 +216,15 @@ document.getElementById("tryLuck").addEventListener("click", () => {
 });
 
 // Caught Bus Button
-document.querySelector(".caught").addEventListener("click", () => {
+document.getElementById("caughtBtn").addEventListener("click", () => {
     document.getElementById("caughtBusSound").play();
     nextBus = getNextBus(busSchedules[currentRoute].times.map(t => t.arrival));
     document.getElementById("nextBus").innerText = nextBus.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 });
 
-// Full Schedule Modal
+// Modal Controls
 const modal = document.getElementById("scheduleModal");
-const fullScheduleBtn = document.querySelector(".full-schedule");
 const closeBtn = document.querySelector(".close");
-fullScheduleBtn.addEventListener("click", () => {
-    const schedule = busSchedules[currentRoute];
-    let html = "<ul>";
-    schedule.times.forEach(t => {
-        html += `<li>${t.departure} → ${t.arrival}</li>`;
-    });
-    html += "</ul>";
-    document.getElementById("fullSchedule").innerHTML = html;
-    modal.style.display = "block";
-});
 closeBtn.addEventListener("click", () => modal.style.display = "none");
 window.addEventListener("click", (e) => { if (e.target === modal) modal.style.display = "none"; });
 
@@ -243,9 +233,18 @@ window.addEventListener('offline', () => {
     alert("You're offline! Bus times may not update.");
 });
 
+// Splash Screen with Drop Sound
+window.addEventListener("load", () => {
+    const splash = document.getElementById("splash");
+    document.getElementById("dramaticSound").play();
+    setTimeout(() => {
+        splash.classList.add("hidden");
+        setTimeout(() => splash.style.display = "none", 500); // Match transition duration
+    }, 3000); // Show splash for 3 seconds
+});
+
 // Initialize
 document.getElementById("routeName").innerText = busSchedules[0].route;
-setTimeout(() => document.getElementById("loading").style.display = "none", 2000);
 setInterval(updateCountdown, 1000);
 setInterval(updateCurrentTime, 1000);
 updateCountdown();

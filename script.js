@@ -132,7 +132,7 @@ function updateCountdown() {
 
     // Update progress ring
     const progressPercent = Math.max(0, (1 - timeLeft / BUS_INTERVAL));
-    const circumference = window.innerWidth <= 600 ? 345.4 : 439.6; // Adjust for responsive circle size
+    const circumference = window.innerWidth <= 600 ? 345.4 : 408.2; // Adjust for responsive circle size
     const offset = circumference * (1 - progressPercent);
     document.getElementById("timerProgress").style.strokeDashoffset = offset;
 
@@ -175,6 +175,21 @@ document.getElementById("caughtBtn").addEventListener("click", () => {
     nextBus = getNextBus(busSchedules[currentRoute].times.map(t => t.arrival));
     document.getElementById("nextBus").innerText = nextBus.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 });
+
+// Full Schedule Modal
+const modal = document.getElementById("scheduleModal");
+document.getElementById("scheduleBtn").addEventListener("click", () => {
+    const schedule = busSchedules[currentRoute];
+    let html = "<ul>";
+    schedule.times.forEach(t => {
+        html += `<li>${t.departure} → ${t.arrival}</li>`;
+    });
+    html += "</ul>";
+    document.getElementById("fullSchedule").innerHTML = html;
+    modal.style.display = "block";
+});
+document.querySelector(".close").addEventListener("click", () => modal.style.display = "none");
+window.addEventListener("click", (e) => { if (e.target === modal) modal.style.display = "none"; });
 
 // Offline Warning
 window.addEventListener('offline', () => {

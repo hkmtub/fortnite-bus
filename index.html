@@ -12,62 +12,40 @@
 <body>
     <div class="background"></div>
     
-    <!-- App Header -->
-    <header class="app-header">
-        <h1>Fortnite Bus</h1>
-        <p>Drop In On Time</p>
-    </header>
-
-    <!-- App Content -->
+    <!-- Main Content -->
     <main class="app-content">
         <div class="card">
-            <div class="route-picker">
-                <label for="routeSelect">Choose Your Route:</label>
-                <select id="routeSelect" aria-label="Select Bus Route">
-                    <option value="0">University Union → Leroy & Murray</option>
-                    <option value="1">Downtown Center → Leroy & Murray</option>
-                    <option value="2">Leroy & Murray → Downtown Center</option>
-                </select>
-            </div>
-            <h2 id="routeName"></h2>
-            <p>Next bus drops at: <span id="nextBus"></span></p>
-            <div class="countdown-wrapper">
-                <p>Time to drop: <span id="countdown"></span></p>
-                <div class="progress-bar">
-                    <div id="progressFill"></div>
+            <div class="timer-wrapper">
+                <svg class="timer-circle" width="150" height="150">
+                    <circle class="timer-bg" cx="75" cy="75" r="70" />
+                    <circle id="timerProgress" class="timer-progress" cx="75" cy="75" r="70" />
+                </svg>
+                <div class="timer-text">
+                    <span id="countdown">0m 0s</span>
                 </div>
             </div>
+            <h2>Fortnite Bus</h2>
+            <div class="route-picker">
+                <select id="routeSelect" aria-label="Select Bus Route">
+                    <option value="0">Union → Leroy & Murray</option>
+                    <option value="1">Downtown → Leroy & Murray</option>
+                    <option value="2">Leroy & Murray → Downtown</option>
+                </select>
+            </div>
+            <p>Next Bus: <span id="nextBus"></span></p>
             <div class="next-buses">
                 <h3>Next 3 Buses</h3>
                 <ul id="nextBusesList"></ul>
             </div>
+            <div class="controls">
+                <button id="caughtBtn" aria-label="I Dropped In">✈️</button>
+                <button id="refreshBtn" aria-label="Refresh">🔄</button>
+                <button id="modeToggle" aria-label="Toggle Dark Mode">🌙</button>
+                <button id="notifyToggle" aria-label="Toggle Notifications">🔔</button>
+            </div>
+            <p class="joke">Why was the student late? He was stuck in a lecture loop!</p>
         </div>
     </main>
-
-    <!-- App Footer -->
-    <footer class="app-footer">
-        <div class="controls">
-            <button id="caughtBtn" aria-label="I Dropped In">✈️</button>
-            <button id="scheduleBtn" aria-label="Full Schedule">📅</button>
-            <button id="refreshBtn" aria-label="Refresh">🔄</button>
-            <button id="modeToggle" aria-label="Toggle Dark Mode">🌙</button>
-            <button id="ecoToggle" aria-label="Eco Mode">🌿</button>
-            <button id="notifyToggle" aria-label="Toggle Notifications">🔔</button>
-            <button id="tryLuck" aria-label="Get Joke">🎲</button>
-        </div>
-        <p id="currentTime"></p>
-        <p class="joke">Why was the student late? Because the lecture was a battle royale with no respawns!</p>
-        <p id="randomJoke" class="random-joke"></p>
-    </footer>
-
-    <!-- Modal -->
-    <div id="scheduleModal" class="modal">
-        <div class="modal-content">
-            <span class="close" aria-label="Close">×</span>
-            <h2>Full Bus Schedule</h2>
-            <div id="fullSchedule"></div>
-        </div>
-    </div>
 
     <!-- Audio -->
     <audio id="missedBusSound" src="sounds/sad-trombone.mp3"></audio>

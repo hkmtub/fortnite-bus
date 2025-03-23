@@ -2,36 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fortnite Bus - Drop In On Time</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Fortnite Bus</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="background"></div>
-    <header>
+    
+    <!-- Splash Screen with Cat GIF -->
+    <div id="splash" class="splash">
+        <img src="images/dancing-cat.gif" alt="Dancing Cat" class="splash-cat">
+    </div>
+
+    <!-- App Layout -->
+    <header class="app-header">
         <h1>Fortnite Bus</h1>
-        <p>Drop In On Time</p>
-        <div class="controls">
-            <button id="modeToggle">Toggle Dark Mode</button>
-            <button id="ecoToggle">Eco Mode</button>
-            <button id="notifyToggle" aria-label="Toggle Notifications">🔔</button>
-            <button id="refreshBtn" aria-label="Refresh Countdown">🔄</button>
-        </div>
-        <p id="currentTime"></p>
         <p id="currentRoute" class="current-route"></p>
     </header>
 
-    <div id="loading" class="loading">Dropping into the bus zone…</div>
-
-    <div class="container">
-        <select id="routeSelect" aria-label="Select Bus Route">
-            <option value="0">University Union → Leroy & Murray Streets</option>
-            <option value="1">University Downtown Center → Leroy & Murray Streets</option>
-            <option value="2">Leroy & Murray Streets → University Downtown Center</option>
-        </select>
-
-        <div class="route-info">
+    <main class="app-content">
+        <div class="card">
             <h2 id="routeName"></h2>
             <p>Next bus drops at: <span id="nextBus"></span></p>
             <div class="countdown-wrapper">
@@ -40,21 +33,28 @@
                     <div id="progressFill"></div>
                 </div>
             </div>
-            <img id="catGif" src="images/dancing-cat.gif" alt="Dancing Cat" class="cat-gif">
             <div class="next-buses">
                 <h3>Next 3 Buses</h3>
                 <ul id="nextBusesList"></ul>
             </div>
-            <button class="caught">I Dropped In!</button>
-            <button class="full-schedule">View Full Schedule</button>
         </div>
+    </main>
 
-        <div class="fun-features">
-            <button id="tryLuck">Try Your Luck (Get a Drop Excuse)</button>
-            <p id="excuse"></p>
+    <footer class="app-footer">
+        <div class="controls">
+            <button id="caughtBtn" aria-label="I Dropped In">✈️</button>
+            <button id="scheduleBtn" aria-label="Full Schedule">📅</button>
+            <button id="refreshBtn" aria-label="Refresh">🔄</button>
+            <button id="modeToggle" aria-label="Toggle Dark Mode">🌙</button>
+            <button id="ecoToggle" aria-label="Eco Mode">🌿</button>
+            <button id="notifyToggle" aria-label="Toggle Notifications">🔔</button>
+            <button id="tryLuck" aria-label="Get Excuse">🎲</button>
         </div>
-    </div>
+        <p id="currentTime"></p>
+        <p id="excuse" class="excuse"></p>
+    </footer>
 
+    <!-- Modal -->
     <div id="scheduleModal" class="modal">
         <div class="modal-content">
             <span class="close" aria-label="Close">×</span>
@@ -63,6 +63,7 @@
         </div>
     </div>
 
+    <!-- Audio -->
     <audio id="missedBusSound" src="sounds/sad-trombone.mp3"></audio>
     <audio id="caughtBusSound" src="sounds/victory-royale.mp3"></audio>
     <audio id="dramaticSound" src="sounds/fortnite-drop.mp3"></audio>

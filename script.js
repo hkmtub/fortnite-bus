@@ -66,21 +66,6 @@ const busSchedules = [
     }
 ];
 
-// Function to fetch bus schedules dynamically (placeholder for future implementation)
-/*
-async function fetchBusSchedules() {
-    try {
-        // Example: Fetch data from an API or scrape from the website
-        const response = await fetch('https://occtransport.org/api/schedules'); // Hypothetical API
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error fetching bus schedules:', error);
-        return busSchedules; // Fallback to hardcoded data
-    }
-}
-*/
-
 // Parse 12-hour time to Date object for today
 function parseTime(timeStr) {
     const [time, period] = timeStr.split(" ");
@@ -123,6 +108,17 @@ let isPaused = false;
 let lastUpdate = Date.now();
 let timeLeft = 0;
 const BUS_INTERVAL = 15 * 60 * 1000; // 15-minute interval for progress bar
+const circle = document.getElementById("timerProgress");
+const radius = circle.r.baseVal.value;
+const circumference = 2 * Math.PI * radius;
+
+circle.style.strokeDasharray = `${circumference} ${circumference}`;
+circle.style.strokeDashoffset = circumference;
+
+function setProgress(percent) {
+    const offset = circumference - (percent / 100) * circumference;
+    circle.style.strokeDashoffset = offset;
+}
 
 // Update countdown and next buses
 function updateCountdown() {
@@ -176,6 +172,9 @@ function updateCountdown() {
         if (timeLeft < 10000 && 'vibrate' in navigator) {
             navigator.vibrate([200, 100, 200]);
         }
+        document.querySelector(".timer-circle").classList.add("urgent");
+    } else {
+        document.querySelector(".timer-circle").classList.remove("urgent");
     }
 
     // Notifications and dramatic sound
@@ -183,9 +182,9 @@ function updateCountdown() {
     if (timeLeft > 0 && timeLeft < 30000) document.getElementById("dramaticSound").play();
     if (timeLeft > 0 && timeLeft < 300000 && notifyOn) alert("Bus dropping in 5 minutes!");
 
-    // Update progress bar
+    // Update progress ring
     const progressPercent = Math.max(0, (1 - timeLeft / BUS_INTERVAL)) * 100;
-    document.getElementById("timerProgress").style.width = `${progressPercent}%`;
+    setProgress(progressPercent);
 
     const nextThree = getNextThreeBuses(times);
     document.getElementById("nextBusesList").innerHTML = nextThree.map(t => `<li>${t.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</li>`).join('');
@@ -211,14 +210,11 @@ document.getElementById("routeSelect").addEventListener("change", (e) => {
     updateCountdown();
 });
 
-// Dark Mode Toggle
-let mode = parseInt(localStorage.getItem("mode") || "0");
+// Dark Mode Toggle (Simplified for new design)
+let mode = 0; // Always dark mode for this design
 document.getElementById("modeToggle").addEventListener("click", () => {
-    mode = (mode + 1) % 3;
-    localStorage.setItem("mode", mode);
-    document.body.className = mode === 1 ? "dark-mode" : mode === 2 ? "darker-mode" : "";
+    alert("Dark mode is the default for this design!");
 });
-document.body.className = mode === 1 ? "dark-mode" : mode === 2 ? "darker-mode" : "";
 
 // Notification Toggle
 let notifyOn = false;

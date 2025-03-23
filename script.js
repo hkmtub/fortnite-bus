@@ -127,7 +127,6 @@ function updateCountdown() {
     lastUpdate = now;
 
     if (timeLeft <= 0) {
-        document.getElementById("missedBusSound").play();
         let misses = parseInt(localStorage.getItem("misses") || "0") + 1;
         localStorage.setItem("misses", misses);
         if (misses >= 3) alert("You’re a noob at catching the bus!");
@@ -155,25 +154,23 @@ function updateCountdown() {
         secondsEl.innerText = seconds;
     }
 
-    // Play tick sound and vibrate when under 30 seconds
+    // Vibrate when under 30 seconds
     if (timeLeft > 0 && timeLeft < 30000) {
-        document.getElementById("tickSound").play();
         if (timeLeft < 10000 && 'vibrate' in navigator) {
             navigator.vibrate([200, 100, 200]);
         }
-        document.querySelector(".timer-circle").classList.add("urgent");
+        document.querySelector(".timer-text").classList.add("urgent");
     } else {
-        document.querySelector(".timer-circle").classList.remove("urgent");
+        document.querySelector(".timer-text").classList.remove("urgent");
     }
 
-    // Notifications and dramatic sound
+    // Notifications
     if (timeLeft > 0 && timeLeft < 120000 && 'vibrate' in navigator) navigator.vibrate([500, 500]);
-    if (timeLeft > 0 && timeLeft < 30000) document.getElementById("dramaticSound").play();
     if (timeLeft > 0 && timeLeft < 300000 && notifyOn) alert("Bus dropping in 5 minutes!");
 
-    // Update progress ring
+    // Update progress bar
     const progressPercent = Math.max(0, (1 - timeLeft / BUS_INTERVAL)) * 100;
-    document.getElementById("timerProgress").style.background = `conic-gradient(#00DDEB ${progressPercent}%, #A100FF ${progressPercent}% 100%)`;
+    document.getElementById("timerProgress").style.width = `${progressPercent}%`;
 
     const nextThree = getNextThreeBuses(times);
     document.getElementById("nextBusesList").innerHTML = nextThree.map(t => `<li>${t.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</li>`).join('');
@@ -182,12 +179,8 @@ function updateCountdown() {
 // Toggle pause/resume on timer click
 document.getElementById("timerWrapper").addEventListener("click", () => {
     isPaused = !isPaused;
-    const timerState = document.getElementById("timerState");
-    timerState.innerText = isPaused ? "▶️" : "⏸️";
-    timerState.classList.toggle("active", true);
     if (!isPaused) {
         lastUpdate = Date.now();
-        setTimeout(() => timerState.classList.remove("active"), 1000);
     }
 });
 
@@ -221,7 +214,6 @@ document.getElementById("refreshBtn").addEventListener("click", () => {
 
 // Caught Bus Button
 document.getElementById("caughtBtn").addEventListener("click", () => {
-    document.getElementById("caughtBusSound").play();
     nextBus = getNextBus(busSchedules[currentRoute].times.map(t => t.arrival));
     document.getElementById("nextBus").innerText = nextBus.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
     timeLeft = nextBus - Date.now();

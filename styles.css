@@ -163,7 +163,7 @@ section {
     background-color: #00B8C4;
 }
 
-/* Modal */
+/* Modal (for both Schedule and Joke) */
 .modal {
     display: none;
     position: fixed;
@@ -185,6 +185,7 @@ section {
     max-width: 400px;
     max-height: 70vh;
     overflow-y: auto;
+    text-align: center;
 }
 
 .close {
@@ -210,6 +211,27 @@ section {
     padding: 8px 0;
     border-bottom: 1px solid #3A3A3A;
     color: #B0BEC5;
+}
+
+#jokeText {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #B0BEC5;
+}
+
+.modal-button {
+    padding: 10px 20px;
+    background-color: #00DDEB;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modal-button:hover {
+    background-color: #00B8C4;
 }
 
 /* Responsive Adjustments */
@@ -251,5 +273,9 @@ section {
         width: 35px;
         height: 35px;
         font-size: 1.1rem;
+    }
+
+    #jokeText {
+        font-size: 0.95rem;
     }
 }

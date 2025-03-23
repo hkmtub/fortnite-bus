@@ -1,4 +1,4 @@
-v// Bus Schedules
+// Bus Schedules (Hardcoded for now, can be replaced with dynamic data from OCC Transport)
 const busSchedules = [
     {
         route: "Union → Leroy & Murray",
@@ -66,6 +66,21 @@ const busSchedules = [
     }
 ];
 
+// Function to fetch bus schedules dynamically (placeholder for future implementation)
+/*
+async function fetchBusSchedules() {
+    try {
+        // Example: Fetch data from an API or scrape from the website
+        const response = await fetch('https://occtransport.org/api/schedules'); // Hypothetical API
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching bus schedules:', error);
+        return busSchedules; // Fallback to hardcoded data
+    }
+}
+*/
+
 // Parse 12-hour time to Date object for today
 function parseTime(timeStr) {
     const [time, period] = timeStr.split(" ");
@@ -101,19 +116,31 @@ function getNextThreeBuses(times) {
     return upcoming;
 }
 
-// Update countdown and next buses
+// Timer state
 let currentRoute = 0;
 let nextBus = null;
+let isPaused = false;
+let lastUpdate = Date.now();
+let timeLeft = 0;
 const BUS_INTERVAL = 15 * 60 * 1000; // 15-minute interval for progress bar
+
+// Update countdown and next buses
 function updateCountdown() {
+    if (isPaused) return;
+
+    const now = Date.now();
     const schedule = busSchedules[currentRoute];
     const times = schedule.times.map(t => t.arrival);
+
     if (!nextBus || nextBus < new Date()) {
         nextBus = getNextBus(times);
         document.getElementById("nextBus").innerText = nextBus.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+        timeLeft = nextBus - now;
     }
-    const now = new Date();
-    let timeLeft = nextBus - now;
+
+    timeLeft -= (now - lastUpdate);
+    lastUpdate = now;
+
     if (timeLeft <= 0) {
         document.getElementById("missedBusSound").play();
         let misses = parseInt(localStorage.getItem("misses") || "0") + 1;
@@ -123,9 +150,35 @@ function updateCountdown() {
         document.getElementById("nextBus").innerText = nextBus.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
         timeLeft = nextBus - now;
     }
+
     const minutes = Math.floor(timeLeft / 60000);
     const seconds = Math.floor((timeLeft % 60000) / 1000);
-    document.getElementById("countdown").innerText = `${minutes}m ${seconds}s`;
+
+    // Update digits with flip animation
+    const minutesEl = document.getElementById("minutes");
+    const secondsEl = document.getElementById("seconds");
+    if (minutesEl.innerText !== minutes.toString()) {
+        minutesEl.classList.add("flipping");
+        minutesEl.setAttribute("data-old", minutesEl.innerText);
+        minutesEl.setAttribute("data-new", minutes);
+        minutesEl.innerText = minutes;
+    }
+    if (secondsEl.innerText !== seconds.toString()) {
+        secondsEl.classList.add("flipping");
+        secondsEl.setAttribute("data-old", secondsEl.innerText);
+        secondsEl.setAttribute("data-new", seconds);
+        secondsEl.innerText = seconds;
+    }
+
+    // Play tick sound and vibrate when under 30 seconds
+    if (timeLeft > 0 && timeLeft < 30000) {
+        document.getElementById("tickSound").play();
+        if (timeLeft < 10000 && 'vibrate' in navigator) {
+            navigator.vibrate([200, 100, 200]);
+        }
+    }
+
+    // Notifications and dramatic sound
     if (timeLeft > 0 && timeLeft < 120000 && 'vibrate' in navigator) navigator.vibrate([500, 500]);
     if (timeLeft > 0 && timeLeft < 30000) document.getElementById("dramaticSound").play();
     if (timeLeft > 0 && timeLeft < 300000 && notifyOn) alert("Bus dropping in 5 minutes!");
@@ -138,10 +191,23 @@ function updateCountdown() {
     document.getElementById("nextBusesList").innerHTML = nextThree.map(t => `<li>${t.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</li>`).join('');
 }
 
+// Toggle pause/resume on timer click
+document.getElementById("timerWrapper").addEventListener("click", () => {
+    isPaused = !isPaused;
+    const timerState = document.getElementById("timerState");
+    timerState.innerText = isPaused ? "▶️" : "⏸️";
+    timerState.classList.toggle("active", true);
+    if (!isPaused) {
+        lastUpdate = Date.now();
+        setTimeout(() => timerState.classList.remove("active"), 1000);
+    }
+});
+
 // Route selection
 document.getElementById("routeSelect").addEventListener("change", (e) => {
     currentRoute = parseInt(e.target.value);
     nextBus = null;
+    timeLeft = 0;
     updateCountdown();
 });
 
@@ -164,6 +230,7 @@ document.getElementById("notifyToggle").addEventListener("click", () => {
 // Refresh Button
 document.getElementById("refreshBtn").addEventListener("click", () => {
     nextBus = null;
+    timeLeft = 0;
     updateCountdown();
 });
 
@@ -172,6 +239,7 @@ document.getElementById("caughtBtn").addEventListener("click", () => {
     document.getElementById("caughtBusSound").play();
     nextBus = getNextBus(busSchedules[currentRoute].times.map(t => t.arrival));
     document.getElementById("nextBus").innerText = nextBus.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    timeLeft = nextBus - Date.now();
 });
 
 // Full Schedule Modal

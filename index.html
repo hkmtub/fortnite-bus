@@ -2,17 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fortnite Bus</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://www.pngall.com/wp-content/uploads/5/Fortnite-Bus-PNG-Image.png">
 </head>
 <body>
     <!-- Offline Banner -->
     <div id="offlineBanner" class="offline-banner" style="display: none;">
-        You're offline! Bus times may not update.
+        You are offline. Some features may not work.
     </div>
 
     <!-- Header -->
@@ -22,78 +20,100 @@
 
     <!-- Main Content -->
     <main class="main">
-        <section class="timer-section">
-            <div class="timer" id="timerWrapper" aria-label="Tap to pause or resume timer">
-                <div class="timer-label">Time Until Next Bus</div>
-                <div class="timer-display" id="countdown" aria-live="polite">0m 0s</div>
-                <div class="timer-progress">
-                    <div id="timerProgress" class="timer-progress-fill"></div>
-                </div>
-                <div class="timer-state" id="timerState">Running</div>
-            </div>
-        </section>
-
-        <section class="route-section" id="routeSection">
-            <select id="routeSelect" aria-label="Select Bus Route">
+        <!-- Route Selection -->
+        <section class="route-section">
+            <select id="routeSelect">
                 <option value="0">University Union → Leroy & Beethoven St</option>
                 <option value="1">UDC → Leroy & Front St</option>
                 <option value="2">Leroy & Front St → University Union</option>
             </select>
-            <p>Next Bus: <span id="nextBus"></span></p>
-            <p class="live-tracking-link">
-                <a href="https://binghamtonupublic.etaspot.net/" target="_blank" aria-label="Live Bus Tracking">Track Live on ETA SPOT</a>
-            </p>
+            <div class="schedule-toggle">
+                <label class="toggle-label">Schedule Type:</label>
+                <div class="toggle-wrapper">
+                    <button id="weekdayToggle" class="toggle-button active">Weekday</button>
+                    <button id="weekendToggle" class="toggle-button">Weekend</button>
+                </div>
+                <div id="weekendDayToggle" class="weekend-day-toggle" style="display: none;">
+                    <button id="saturdayToggle" class="toggle-button active">Saturday</button>
+                    <button id="sundayToggle" class="toggle-button">Sunday</button>
+                </div>
+            </div>
+            <p id="routeDescription"></p>
+            <div class="live-tracking-link">
+                <a href="https://www.etaspot.net/service?stop_id=occt__UDC" target="_blank">Track Live on ETA SPOT</a>
+            </div>
         </section>
 
+        <!-- Timer -->
+        <section class="timer-section">
+            <div id="timerWrapper" class="timer">
+                <div class="timer-label">Next Bus Arrives At</div>
+                <div id="nextBus" class="timer-display">Loading...</div>
+                <div id="countdown" class="timer-display">Calculating...</div>
+                <div class="timer-progress">
+                    <div id="timerProgress" class="timer-progress-fill"></div>
+                </div>
+                <div id="timerState" class="timer-state">Running</div>
+            </div>
+        </section>
+
+        <!-- Next Buses -->
         <section class="next-buses-section">
-            <h2>Next 3 Buses</h2>
-            <ul id="nextBusesList"></ul>
+            <h2>Next Buses</h2>
+            <ul id="nextBusesList">
+                <li>Loading...</li>
+            </ul>
         </section>
     </main>
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <button id="refreshBtn" aria-label="Refresh">
+        <button id="refreshBtn" title="Refresh">
             <span class="button-icon">🔄</span>
             <span class="button-spinner" style="display: none;">⏳</span>
         </button>
-        <button id="scheduleBtn" aria-label="Full Schedule">📅</button>
-        <a href="https://occtransport.org/pages/routes/dcl-in.html" target="_blank" id="busTimesLink" class="nav-button" aria-label="More Bus Times">🚌</a>
+        <button id="scheduleBtn" title="Full Schedule">📅</button>
+        <button id="reportIssueBtn" title="Report Schedule Issue">📝</button>
+        <a href="more.html" class="nav-button" title="More Bus Times">🚌</a>
     </nav>
 
-    <!-- Modal for Full Schedule -->
+    <!-- Full Schedule Modal -->
     <div id="scheduleModal" class="modal">
         <div class="modal-content">
-            <span class="close" aria-label="Close">×</span>
+            <span class="close">&times;</span>
             <h2>Full Schedule</h2>
             <div id="fullSchedule"></div>
-            <button id="copyScheduleBtn" class="modal-button">Copy Schedule</button>
+            <div class="modal-actions">
+                <button id="copyScheduleBtn" class="modal-button">Copy Schedule</button>
+            </div>
         </div>
     </div>
 
-    <!-- Modal for Joke -->
+    <!-- Joke Modal -->
     <div id="jokeModal" class="modal">
         <div class="modal-content">
-            <span class="close" aria-label="Close">×</span>
-            <h2>Dark Humor of the Day</h2>
+            <span class="close">&times;</span>
+            <h2>Here's a Joke!</h2>
             <p id="jokeText"></p>
             <div class="modal-actions">
                 <label class="dont-show-label">
-                    <input type="checkbox" id="dontShowJoke"> Don’t Show Again Today
+                    <input type="checkbox" id="dontShowJoke"> Don't show again today
                 </label>
                 <button id="closeJokeBtn" class="modal-button">Close</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal for Missed Buses -->
+    <!-- Missed Bus Modal -->
     <div id="missedBusModal" class="modal">
         <div class="modal-content">
-            <span class="close" aria-label="Close">×</span>
-            <h2>Missed Buses</h2>
-            <p>You’ve missed <span id="missedBusCount"></span> buses! Better luck next time.</p>
-            <button id="resetMissedBtn" class="modal-button">Reset Counter</button>
-            <button id="closeMissedBtn" class="modal-button">Close</button>
+            <span class="close">&times;</span>
+            <h2>Missed Buses Alert</h2>
+            <p>You've missed <span id="missedBusCount">0</span> buses! Be more careful next time.</p>
+            <div class="modal-actions">
+                <button id="resetMissedBtn" class="modal-button">Reset Counter</button>
+                <button id="closeMissedBtn" class="modal-button">Close</button>
+            </div>
         </div>
     </div>
 

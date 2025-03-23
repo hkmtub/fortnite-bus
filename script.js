@@ -108,17 +108,6 @@ let isPaused = false;
 let lastUpdate = Date.now();
 let timeLeft = 0;
 const BUS_INTERVAL = 15 * 60 * 1000; // 15-minute interval for progress bar
-const circle = document.getElementById("timerProgress");
-const radius = circle.r.baseVal.value;
-const circumference = 2 * Math.PI * radius;
-
-circle.style.strokeDasharray = `${circumference} ${circumference}`;
-circle.style.strokeDashoffset = circumference;
-
-function setProgress(percent) {
-    const offset = circumference - (percent / 100) * circumference;
-    circle.style.strokeDashoffset = offset;
-}
 
 // Update countdown and next buses
 function updateCountdown() {
@@ -184,7 +173,7 @@ function updateCountdown() {
 
     // Update progress ring
     const progressPercent = Math.max(0, (1 - timeLeft / BUS_INTERVAL)) * 100;
-    setProgress(progressPercent);
+    document.getElementById("timerProgress").style.background = `conic-gradient(#00DDEB ${progressPercent}%, #A100FF ${progressPercent}% 100%)`;
 
     const nextThree = getNextThreeBuses(times);
     document.getElementById("nextBusesList").innerHTML = nextThree.map(t => `<li>${t.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</li>`).join('');

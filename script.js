@@ -1,4 +1,4 @@
-// Bus Schedules
+v// Bus Schedules
 const busSchedules = [
     {
         route: "Union → Leroy & Murray",
@@ -104,7 +104,7 @@ function getNextThreeBuses(times) {
 // Update countdown and next buses
 let currentRoute = 0;
 let nextBus = null;
-const BUS_INTERVAL = 15 * 60 * 1000; // 15-minute interval for progress ring
+const BUS_INTERVAL = 15 * 60 * 1000; // 15-minute interval for progress bar
 function updateCountdown() {
     const schedule = busSchedules[currentRoute];
     const times = schedule.times.map(t => t.arrival);
@@ -130,11 +130,9 @@ function updateCountdown() {
     if (timeLeft > 0 && timeLeft < 30000) document.getElementById("dramaticSound").play();
     if (timeLeft > 0 && timeLeft < 300000 && notifyOn) alert("Bus dropping in 5 minutes!");
 
-    // Update progress ring
-    const progressPercent = Math.max(0, (1 - timeLeft / BUS_INTERVAL));
-    const circumference = window.innerWidth <= 600 ? 345.4 : 408.2; // Adjust for responsive circle size
-    const offset = circumference * (1 - progressPercent);
-    document.getElementById("timerProgress").style.strokeDashoffset = offset;
+    // Update progress bar
+    const progressPercent = Math.max(0, (1 - timeLeft / BUS_INTERVAL)) * 100;
+    document.getElementById("timerProgress").style.width = `${progressPercent}%`;
 
     const nextThree = getNextThreeBuses(times);
     document.getElementById("nextBusesList").innerHTML = nextThree.map(t => `<li>${t.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</li>`).join('');

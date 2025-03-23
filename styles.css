@@ -1,5 +1,5 @@
 /* Import Montserrat font */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 
 body {
     font-family: 'Montserrat', sans-serif;
@@ -9,9 +9,7 @@ body {
     padding: 0;
     height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+    flex-direction: column;
     transition: all 0.3s ease;
 }
 
@@ -25,30 +23,56 @@ body {
     z-index: -1;
 }
 
+/* Header */
+.app-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #FFFFFF;
+    text-align: center;
+    padding: 10px 0;
+    z-index: 10;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.app-header h1 {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #d32f2f;
+    margin: 0;
+}
+
 /* App Content */
 .app-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 60px 15px 60px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100%;
-    padding: 20px;
+    align-items: flex-start;
 }
 
 .card {
     background-color: #FFFFFF;
     padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     width: 90%;
     max-width: 350px;
     text-align: center;
+    animation: cardFadeIn 0.5s ease;
+}
+
+@keyframes cardFadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Timer */
 .timer-wrapper {
     position: relative;
-    width: 150px;
-    height: 150px;
+    width: 140px;
+    height: 140px;
     margin: 0 auto 15px;
 }
 
@@ -67,8 +91,8 @@ body {
     stroke: #FFC107;
     stroke-width: 10;
     stroke-linecap: round;
-    stroke-dasharray: 439.6; /* Circumference of circle (2 * π * 70) */
-    stroke-dashoffset: 439.6;
+    stroke-dasharray: 408.2; /* Circumference of circle (2 * π * 65) */
+    stroke-dashoffset: 408.2;
     transition: stroke-dashoffset 1s linear;
 }
 
@@ -77,25 +101,19 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 700;
     color: #000000;
 }
 
-.card h2 {
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: #d32f2f;
-    margin: 0 0 10px;
-}
-
+/* Route Picker */
 .route-picker {
     margin: 10px 0;
 }
 
 #routeSelect {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     font-size: 0.9rem;
     font-family: 'Montserrat', sans-serif;
     background-color: #F5F5F5;
@@ -103,15 +121,22 @@ body {
     border: none;
     border-radius: 10px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
+#routeSelect:hover {
+    background-color: #E0E0E0;
+}
+
+/* Bus Info */
 .card p {
-    font-size: 0.9rem;
-    margin: 5px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 10px 0;
 }
 
 .next-buses {
-    margin: 10px 0;
+    margin: 15px 0;
 }
 
 .next-buses h3 {
@@ -128,40 +153,100 @@ body {
 
 #nextBusesList li {
     font-size: 0.8rem;
-    padding: 4px 0;
+    padding: 5px 0;
+    color: #666666;
 }
 
-/* Controls */
+/* Footer */
+.app-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #FFFFFF;
+    padding: 10px 0;
+    z-index: 10;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
 .controls {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin: 10px 0;
+    gap: 15px;
 }
 
 button {
-    padding: 8px;
-    font-size: 1rem;
+    padding: 10px;
+    font-size: 1.2rem;
     font-family: 'Montserrat', sans-serif;
     background-color: #FFC107;
     color: #000000;
     border: none;
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     cursor: pointer;
     transition: all 0.3s;
 }
 
 button:hover {
     background-color: #FFB300;
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
 
 .joke {
     font-size: 0.8rem;
     color: #666666;
-    margin: 10px 0 0;
+    text-align: center;
+    margin: 5px 0;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 20;
+}
+
+.modal-content {
+    background-color: #FFFFFF;
+    color: #000000;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 15px;
+    width: 85%;
+    max-width: 350px;
+    max-height: 70vh;
+    overflow-y: auto;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.close {
+    float: right;
+    font-size: 24px;
+    color: #000000;
+    cursor: pointer;
+}
+
+.modal-content h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 15px;
+}
+
+#fullSchedule ul {
+    list-style: none;
+    padding: 0;
+}
+
+#fullSchedule li {
+    font-size: 0.9rem;
+    padding: 5px 0;
+    border-bottom: 1px solid #E0E0E0;
 }
 
 /* Dark Mode */
@@ -174,21 +259,28 @@ body.dark-mode .background {
     background: linear-gradient(135deg, #37474f, #263238);
 }
 
-body.dark-mode .card {
-    background-color: rgba(55, 71, 79, 0.95);
+body.dark-mode .app-header,
+body.dark-mode .app-footer,
+body.dark-mode .card,
+body.dark-mode .modal-content {
+    background-color: #37474F;
     color: #ECEFF1;
 }
 
-body.dark-mode h1,
+body.dark-mode .app-header h1,
 body.dark-mode .card h2 {
     color: #FF5252;
 }
 
 body.dark-mode .timer-text,
 body.dark-mode .card p,
-body.dark-mode .next-buses h3,
-body.dark-mode #nextBusesList li {
+body.dark-mode .next-buses h3 {
     color: #ECEFF1;
+}
+
+body.dark-mode #nextBusesList li,
+body.dark-mode .joke {
+    color: #B0BEC5;
 }
 
 body.dark-mode #routeSelect {
@@ -196,8 +288,8 @@ body.dark-mode #routeSelect {
     color: #ECEFF1;
 }
 
-body.dark-mode .joke {
-    color: #B0BEC5;
+body.dark-mode #routeSelect:hover {
+    background: #546E7A;
 }
 
 body.dark-mode .timer-progress {
@@ -214,21 +306,28 @@ body.darker-mode .background {
     background: linear-gradient(135deg, #2C2C2C, #1A1A1A);
 }
 
-body.darker-mode .card {
-    background-color: rgba(44, 44, 44, 0.95);
+body.darker-mode .app-header,
+body.darker-mode .app-footer,
+body.darker-mode .card,
+body.darker-mode .modal-content {
+    background-color: #2C2C2C;
     color: #FF8A80;
 }
 
-body.darker-mode h1,
+body.darker-mode .app-header h1,
 body.darker-mode .card h2 {
     color: #EF5350;
 }
 
 body.darker-mode .timer-text,
 body.darker-mode .card p,
-body.darker-mode .next-buses h3,
-body.darker-mode #nextBusesList li {
+body.darker-mode .next-buses h3 {
     color: #FF8A80;
+}
+
+body.darker-mode #nextBusesList li,
+body.darker-mode .joke {
+    color: #FFCCBC;
 }
 
 body.darker-mode #routeSelect {
@@ -236,22 +335,24 @@ body.darker-mode #routeSelect {
     color: #FF8A80;
 }
 
-body.darker-mode .joke {
-    color: #FFCCBC;
+body.darker-mode #routeSelect:hover {
+    background: #616161;
 }
 
 body.darker-mode .timer-progress {
     stroke: #81C784;
 }
 
-/* Eco Mode */
-body.eco-mode .background {
-    animation: none;
-    background: #87ceeb;
-}
-
 /* Responsive Adjustments */
 @media (max-width: 600px) {
+    .app-header h1 {
+        font-size: 1.3rem;
+    }
+
+    .app-content {
+        padding: 50px 10px 50px;
+    }
+
     .card {
         padding: 15px;
     }
@@ -275,16 +376,12 @@ body.eco-mode .background {
     }
 
     .timer-text {
-        font-size: 1.5rem;
-    }
-
-    .card h2 {
-        font-size: 1.3rem;
+        font-size: 1.8rem;
     }
 
     .card p,
     .next-buses h3 {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
 
     #nextBusesList li {
@@ -293,13 +390,13 @@ body.eco-mode .background {
 
     #routeSelect {
         font-size: 0.8rem;
-        padding: 6px;
+        padding: 8px;
     }
 
     button {
-        width: 32px;
-        height: 32px;
-        font-size: 0.9rem;
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
     }
 
     .joke {

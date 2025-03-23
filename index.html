@@ -7,9 +7,9 @@
     <meta name="mobile-web-app-capable" content="yes">
     <title>Fortnite Bus</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel (="stylesheet">
 </head>
-<body>
+<body class="dark-mode">
     <!-- Offline Banner -->
     <div id="offlineBanner" class="offline-banner" style="display: none;">
         You're offline! Bus times may not update.
@@ -25,24 +25,31 @@
         <section class="timer-section">
             <div class="timer" id="timerWrapper" aria-label="Tap to pause or resume timer">
                 <div class="timer-label">Time Until Next Bus</div>
-                <div class="timer-circle">
-                    <svg class="progress-ring" width="120" height="120">
-                        <circle class="progress-ring-circle" cx="60" cy="60" r="54" />
-                        <circle id="progressRing" class="progress-ring-fill" cx="60" cy="60" r="54" />
-                    </svg>
-                    <div class="timer-display" id="countdown" aria-live="polite">0m 0s</div>
+                <div class="timer-display" id="countdown" aria-live="polite">0m 0s</div>
+                <div class="timer-progress">
+                    <div id="timerProgress" class="timer-progress-fill"></div>
                 </div>
                 <div class="timer-state" id="timerState">Running</div>
+            </div>
+            <div id="delayNotification" class="delay-notification" style="display: none;">
+                Next bus delayed by <span id="delayMinutes"></span> minutes.
             </div>
         </section>
 
         <section class="route-section" id="routeSection">
-            <select id="routeSelect" aria-label="Select Bus Route">
-                <option value="0">Union → Leroy & Murray</option>
-                <option value="1">Downtown → Leroy & Murray</option>
-                <option value="2">Leroy & Murray → Downtown</option>
-            </select>
+            <div class="route-header">
+                <select id="routeSelect" aria-label="Select Bus Route">
+                    <option value="0">Union → Leroy & Murray</option>
+                    <option value="1">Downtown → Leroy & Murray</option>
+                    <option value="2">Leroy & Murray → Downtown</option>
+                </select>
+                <button id="favoriteBtn" class="favorite-btn" aria-label="Favorite this route">⭐</button>
+            </div>
             <p>Next Bus: <span id="nextBus"></span></p>
+            <div class="route-actions">
+                <button id="mapBtn" class="action-btn">View on Map</button>
+                <button id="shareBtn" class="action-btn">Share</button>
+            </div>
         </section>
 
         <section class="next-buses-section">
@@ -53,12 +60,12 @@
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <button id="refreshBtn" aria-label="Refresh" data-tooltip="Refresh">
+        <button id="refreshBtn" aria-label="Refresh">
             <span class="button-icon">🔄</span>
             <span class="button-spinner" style="display: none;">⏳</span>
         </button>
-        <button id="scheduleBtn" aria-label="Full Schedule" data-tooltip="Full Schedule">📅</button>
-        <a href="https://occtransport.org/pages/routes/dcl-in.html" target="_blank" id="busTimesLink" class="nav-button" aria-label="More Bus Times" data-tooltip="More Bus Times">🚌</a>
+        <button id="scheduleBtn" aria-label="Full Schedule">📅</button>
+        <a href="https://occtransport.org/pages/routes/dcl-in.html" target="_blank" id="busTimesLink" class="nav-button" aria-label="More Bus Times">🚌</a>
     </nav>
 
     <!-- Modal for Full Schedule -->
@@ -94,6 +101,18 @@
             <p>You’ve missed <span id="missedBusCount"></span> buses! Better luck next time.</p>
             <button id="resetMissedBtn" class="modal-button">Reset Counter</button>
             <button id="closeMissedBtn" class="modal-button">Close</button>
+        </div>
+    </div>
+
+    <!-- Modal for Theme Preference -->
+    <div id="themeModal" class="modal">
+        <div class="modal-content">
+            <h2>Theme Preference</h2>
+            <p>This app uses a dark theme by default. Would you like to switch to light mode?</p>
+            <div class="modal-actions">
+                <button id="keepDarkBtn" class="modal-button">Keep Dark Mode</button>
+                <button id="switchLightBtn" class="modal-button">Switch to Light Mode</button>
+            </div>
         </div>
     </div>
 

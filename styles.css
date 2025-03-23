@@ -1,398 +1,267 @@
-/* Import Poppins font */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #E3F2FD;
-    color: #212121;
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    transition: all 0.3s ease;
-}
-
-.background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
-    z-index: -1;
-}
-
-/* Header */
-.app-header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background-color: #FFFFFF;
-    text-align: center;
-    padding: 12px 0;
-    z-index: 10;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-}
-
-.app-header h1 {
-    font-weight: 700;
-    font-size: 1.6rem;
-    color: #FF5722;
-    margin: 0;
-}
-
-/* App Content */
-.app-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 60px 15px 60px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-}
-
-.card {
-    background-color: #FFFFFF;
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 360px;
-    text-align: center;
-    border: 1px solid transparent;
-    background-image: linear-gradient(white, white), linear-gradient(135deg, #FF5722, #FF8A65);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    animation: cardFadeIn 0.5s ease;
-}
-
-@keyframes cardFadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Timer */
-.timer-wrapper {
-    margin: 0 auto 20px;
-}
-
-.timer-bar {
-    width: 100%;
-    height: 12px;
-    background-color: #E0E0E0;
-    border-radius: 6px;
-    overflow: hidden;
-    margin-bottom: 10px;
-}
-
-.timer-progress {
-    height: 100%;
-    background: linear-gradient(90deg, #FF5722, #FF8A65);
-    width: 0;
-    transition: width 1s linear;
-}
-
-.timer-text {
-    font-size: 2.2rem;
-    font-weight: 600;
-    color: #212121;
-    letter-spacing: 1px;
-}
-
-/* Route Picker */
-.route-picker {
-    margin: 15px 0;
-}
-
-#routeSelect {
-    width: 100%;
-    padding: 12px;
-    font-size: 0.95rem;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    background-color: #F5F5F5;
-    color: #212121;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-#routeSelect:hover {
-    background-color: #E0E0E0;
-}
-
-/* Bus Info */
-.card p {
-    font-size: 1.1rem;
-    font-weight: 500;
-    margin: 10px 0;
-    color: #212121;
-}
-
-.next-buses {
-    margin: 15px 0;
-}
-
-.next-buses h3 {
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin: 5px 0;
-    color: #212121;
-}
-
-#nextBusesList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-#nextBusesList li {
-    font-size: 0.85rem;
-    font-weight: 400;
-    padding: 6px 0;
-    color: #757575;
-}
-
-/* Footer */
-.app-footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #FFFFFF;
-    padding: 12px 0;
-    z-index: 10;
-    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.08);
-}
-
-.controls {
-    display: flex;
-    justify-content: center;
-    gap: 18px;
-}
-
-button {
-    padding: 12px;
-    font-size: 1.3rem;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #FF5722, #FF8A65);
-    color: #FFFFFF;
-    border: none;
-    border-radius: 50%;
-    width: 48px;
-    height: 48px;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-}
-
-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.joke {
-    font-size: 0.85rem;
-    font-weight: 400;
-    color: #757575;
-    text-align: center;
-    margin: 8px 0;
-}
-
-/* Modal */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 20;
-}
-
-.modal-content {
-    background-color: #FFFFFF;
-    color: #212121;
-    margin: 15% auto;
-    padding: 20px;
-    border-radius: 20px;
-    width: 85%;
-    max-width: 360px;
-    max-height: 70vh;
-    overflow-y: auto;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-    border: 1px solid transparent;
-    background-image: linear-gradient(white, white), linear-gradient(135deg, #FF5722, #FF8A65);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-}
-
-.close {
-    float: right;
-    font-size: 26px;
-    color: #212121;
-    cursor: pointer;
-}
-
-.modal-content h2 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin: 0 0 15px;
-    color: #FF5722;
-}
-
-#fullSchedule ul {
-    list-style: none;
-    padding: 0;
-}
-
-#fullSchedule li {
-    font-size: 0.9rem;
-    font-weight: 400;
-    padding: 8px 0;
-    border-bottom: 1px solid #E0E0E0;
-    color: #757575;
-}
-
-/* Dark Mode */
-body.dark-mode {
-    background-color: #263238;
-    color: #ECEFF1;
-}
-
-body.dark-mode .background {
-    background: linear-gradient(135deg, #37474F, #263238);
-}
-
-body.dark-mode .app-header,
-body.dark-mode .app-footer,
-body.dark-mode .card,
-body.dark-mode .modal-content {
-    background-color: #37474F;
-    color: #ECEFF1;
-    background-image: linear-gradient(#37474F, #37474F), linear-gradient(135deg, #FF5252, #FF8A80);
-}
-
-body.dark-mode .app-header h1,
-body.dark-mode .modal-content h2 {
-    color: #FF5252;
-}
-
-body.dark-mode .timer-text,
-body.dark-mode .card p,
-body.dark-mode .next-buses h3 {
-    color: #ECEFF1;
-}
-
-body.dark-mode #nextBusesList li,
-body.dark-mode .joke,
-body.dark-mode #fullSchedule li {
-    color: #B0BEC5;
-}
-
-body.dark-mode #routeSelect {
-    background: #455A64;
-    color: #ECEFF1;
-}
-
-body.dark-mode #routeSelect:hover {
-    background: #546E7A;
-}
-
-body.dark-mode .timer-progress {
-    background: linear-gradient(90deg, #FF5252, #FF8A80);
-}
-
-/* Darker Mode */
-body.darker-mode {
-    background-color: #1A1A1A;
-    color: #FF8A80;
-}
-
-body.darker-mode .background {
-    background: linear-gradient(135deg, #2C2C2C, #1A1A1A);
-}
-
-body.darker-mode .app-header,
-body.darker-mode .app-footer,
-body.darker-mode .card,
-body.darker-mode .modal-content {
-    background-color: #2C2C2C;
-    color: #FF8A80;
-    background-image: linear-gradient(#2C2C2C, #2C2C2C), linear-gradient(135deg, #EF5350, #FF8A80);
-}
-
-body.darker-mode .app-header h1,
-body.darker-mode .modal-content h2 {
-    color: #EF5350;
-}
-
-body.darker-mode .timer-text,
-body.darker-mode .card p,
-body.darker-mode .next-buses h3 {
-    color: #FF8A80;
-}
-
-body.darker-mode #nextBusesList li,
-body.darker-mode .joke,
-body.darker-mode #fullSchedule li {
-    color: #FFCCBC;
-}
-
-body.darker-mode #routeSelect {
-    background: #424242;
-    color: #FF8A80;
-}
-
-body.darker-mode #routeSelect:hover {
-    background: #616161;
-}
-
-body.darker-mode .timer-progress {
-    background: linear-gradient(90deg, #EF5350, #FF8A80);
-}
-
-/* Responsive Adjustments */
-@media (max-width: 600px) {
-    .app-header h1 {
-        font-size: 1.4rem;
+// Bus Schedules (Hardcoded for now, can be replaced with dynamic data from OCC Transport)
+const busSchedules = [
+    {
+        route: "Union → Leroy & Murray",
+        type: "arriving",
+        times: [
+            { departure: "7:00 AM", arrival: "7:11 AM" }, { departure: "7:30 AM", arrival: "7:41 AM" },
+            { departure: "8:05 AM", arrival: "8:16 AM" }, { departure: "8:40 AM", arrival: "8:51 AM" },
+            { departure: "9:10 AM", arrival: "9:21 AM" }, { departure: "9:30 AM", arrival: "9:41 AM" },
+            { departure: "10:35 AM", arrival: "10:46 AM" }, { departure: "10:50 AM", arrival: "11:01 AM" },
+            { departure: "11:10 AM", arrival: "11:21 AM" }, { departure: "12:00 PM", arrival: "12:11 PM" },
+            { departure: "12:30 PM", arrival: "12:41 PM" }, { departure: "1:05 PM", arrival: "1:16 PM" },
+            { departure: "1:40 PM", arrival: "1:51 PM" }, { departure: "2:10 PM", arrival: "2:21 PM" },
+            { departure: "2:30 PM", arrival: "2:41 PM" }, { departure: "3:35 PM", arrival: "3:46 PM" },
+            { departure: "4:20 PM", arrival: "4:31 PM" }, { departure: "4:55 PM", arrival: "5:06 PM" },
+            { departure: "5:30 PM", arrival: "5:41 PM" }, { departure: "6:00 PM", arrival: "6:11 PM" },
+            { departure: "6:35 PM", arrival: "6:46 PM" }, { departure: "7:25 PM", arrival: "7:36 PM" },
+            { departure: "7:40 PM", arrival: "7:51 PM" }, { departure: "8:00 PM", arrival: "8:11 PM" },
+            { departure: "9:00 PM", arrival: "9:11 PM" }, { departure: "9:20 PM", arrival: "9:31 PM" },
+            { departure: "10:15 PM", arrival: "10:26 PM" }, { departure: "11:15 PM", arrival: "11:26 PM" },
+            { departure: "12:00 AM", arrival: "12:11 AM" }
+        ]
+    },
+    {
+        route: "Downtown → Leroy & Murray",
+        type: "arriving",
+        times: [
+            { departure: "7:40 AM", arrival: "7:43 AM" }, { departure: "7:45 AM", arrival: "7:48 AM" },
+            { departure: "8:15 AM", arrival: "8:18 AM" }, { departure: "8:45 AM", arrival: "8:48 AM" },
+            { departure: "9:20 AM", arrival: "9:23 AM" }, { departure: "9:35 AM", arrival: "9:38 AM" },
+            { departure: "10:10 AM", arrival: "10:13 AM" }, { departure: "10:25 AM", arrival: "10:28 AM" },
+            { departure: "10:45 AM", arrival: "10:48 AM" }, { departure: "11:50 AM", arrival: "11:53 AM" },
+            { departure: "12:05 PM", arrival: "12:08 PM" }, { departure: "12:25 PM", arrival: "12:28 PM" },
+            { departure: "12:40 PM", arrival: "12:43 PM" }, { departure: "1:15 PM", arrival: "1:18 PM" },
+            { departure: "1:45 PM", arrival: "1:48 PM" }, { departure: "2:20 PM", arrival: "2:23 PM" },
+            { departure: "3:10 PM", arrival: "3:13 PM" }, { departure: "3:25 PM", arrival: "3:28 PM" },
+            { departure: "3:45 PM", arrival: "3:48 PM" }, { departure: "4:50 PM", arrival: "4:53 PM" },
+            { departure: "5:35 PM", arrival: "5:38 PM" }, { departure: "6:10 PM", arrival: "6:13 PM" },
+            { departure: "7:00 PM", arrival: "7:03 PM" }, { departure: "7:15 PM", arrival: "7:18 PM" },
+            { departure: "7:50 PM", arrival: "7:53 PM" }, { departure: "8:40 PM", arrival: "8:43 PM" },
+            { departure: "8:55 PM", arrival: "8:58 PM" }, { departure: "10:10 PM", arrival: "10:13 PM" },
+            { departure: "10:35 PM", arrival: "10:38 PM" }, { departure: "11:25 PM", arrival: "11:28 PM" },
+            { departure: "12:20 AM", arrival: "12:23 AM" }
+        ]
+    },
+    {
+        route: "Leroy & Murray → Downtown",
+        type: "arriving",
+        times: [
+            { departure: "7:11 AM", arrival: "7:18 AM" }, { departure: "7:41 AM", arrival: "7:48 AM" },
+            { departure: "8:16 AM", arrival: "8:23 AM" }, { departure: "8:51 AM", arrival: "8:58 AM" },
+            { departure: "9:21 AM", arrival: "9:28 AM" }, { departure: "9:41 AM", arrival: "9:48 AM" },
+            { departure: "10:46 AM", arrival: "10:53 AM" }, { departure: "11:01 AM", arrival: "11:08 AM" },
+            { departure: "11:21 AM", arrival: "11:28 AM" }, { departure: "12:11 PM", arrival: "12:18 PM" },
+            { departure: "12:41 PM", arrival: "12:48 PM" }, { departure: "1:16 PM", arrival: "1:23 PM" },
+            { departure: "1:51 PM", arrival: "1:58 PM" }, { departure: "2:21 PM", arrival: "2:28 PM" },
+            { departure: "2:41 PM", arrival: "2:48 PM" }, { departure: "3:46 PM", arrival: "3:53 PM" },
+            { departure: "4:31 PM", arrival: "4:38 PM" }, { departure: "5:06 PM", arrival: "5:13 PM" },
+            { departure: "5:41 PM", arrival: "5:48 PM" }, { departure: "6:11 PM", arrival: "6:18 PM" },
+            { departure: "6:46 PM", arrival: "6:53 PM" }, { departure: "7:36 PM", arrival: "7:43 PM" },
+            { departure: "7:51 PM", arrival: "7:58 PM" }, { departure: "8:11 PM", arrival: "8:15 PM" },
+            { departure: "9:11 PM", arrival: "9:15 PM" }, { departure: "9:31 PM", arrival: "9:35 PM" },
+            { departure: "10:26 PM", arrival: "10:30 PM" }, { departure: "11:26 PM", arrival: "11:30 PM" },
+            { departure: "12:11 AM", arrival: "12:15 AM" }
+        ]
     }
+];
 
-    .app-content {
-        padding: 50px 10px 50px;
-    }
-
-    .card {
-        padding: 15px;
-    }
-
-    .timer-text {
-        font-size: 2rem;
-    }
-
-    .card p,
-    .next-buses h3 {
-        font-size: 1rem;
-    }
-
-    #nextBusesList li {
-        font-size: 0.8rem;
-    }
-
-    #routeSelect {
-        font-size: 0.9rem;
-        padding: 10px;
-    }
-
-    button {
-        width: 44px;
-        height: 44px;
-        font-size: 1.2rem;
-    }
-
-    .joke {
-        font-size: 0.8rem;
+// Function to fetch bus schedules dynamically (placeholder for future implementation)
+/*
+async function fetchBusSchedules() {
+    try {
+        // Example: Fetch data from an API or scrape from the website
+        const response = await fetch('https://occtransport.org/api/schedules'); // Hypothetical API
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching bus schedules:', error);
+        return busSchedules; // Fallback to hardcoded data
     }
 }
+*/
+
+// Parse 12-hour time to Date object for today
+function parseTime(timeStr) {
+    const [time, period] = timeStr.split(" ");
+    let [hours, minutes] = time.split(":");
+    hours = parseInt(hours);
+    if (period === "PM" && hours !== 12) hours += 12;
+    if (period === "AM" && hours === 12) hours = 0;
+    const now = new Date();
+    const date = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+    if (date < now && timeStr.includes("AM") && hours < 6) date.setDate(date.getDate() + 1);
+    return date;
+}
+
+// Get the next bus time
+function getNextBus(times) {
+    const now = new Date();
+    for (let time of times) {
+        const busTime = parseTime(time);
+        if (busTime > now) return busTime;
+    }
+    return parseTime(times[0]);
+}
+
+// Get next 3 buses
+function getNextThreeBuses(times) {
+    const now = new Date();
+    const upcoming = times.map(t => parseTime(t)).filter(t => t > now).slice(0, 3);
+    if (upcoming.length < 3) {
+        const firstTomorrow = times.slice(0, 3 - upcoming.length).map(t => parseTime(t));
+        firstTomorrow.forEach(t => t.setDate(t.getDate() + 1));
+        upcoming.push(...firstTomorrow);
+    }
+    return upcoming;
+}
+
+// Timer state
+let currentRoute = 0;
+let nextBus = null;
+let isPaused = false;
+let lastUpdate = Date.now();
+let timeLeft = 0;
+const BUS_INTERVAL = 15 * 60 * 1000; // 15-minute interval for progress bar
+
+// Update countdown and next buses
+function updateCountdown() {
+    if (isPaused) return;
+
+    const now = Date.now();
+    const schedule = busSchedules[currentRoute];
+    const times = schedule.times.map(t => t.arrival);
+
+    if (!nextBus || nextBus < new Date()) {
+        nextBus = getNextBus(times);
+        document.getElementById("nextBus").innerText = nextBus.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+        timeLeft = nextBus - now;
+    }
+
+    timeLeft -= (now - lastUpdate);
+    lastUpdate = now;
+
+    if (timeLeft <= 0) {
+        document.getElementById("missedBusSound").play();
+        let misses = parseInt(localStorage.getItem("misses") || "0") + 1;
+        localStorage.setItem("misses", misses);
+        if (misses >= 3) alert("You’re a noob at catching the bus!");
+        nextBus = getNextBus(times);
+        document.getElementById("nextBus").innerText = nextBus.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+        timeLeft = nextBus - now;
+    }
+
+    const minutes = Math.floor(timeLeft / 60000);
+    const seconds = Math.floor((timeLeft % 60000) / 1000);
+
+    // Update digits with flip animation
+    const minutesEl = document.getElementById("minutes");
+    const secondsEl = document.getElementById("seconds");
+    if (minutesEl.innerText !== minutes.toString()) {
+        minutesEl.classList.add("flipping");
+        minutesEl.setAttribute("data-old", minutesEl.innerText);
+        minutesEl.setAttribute("data-new", minutes);
+        minutesEl.innerText = minutes;
+    }
+    if (secondsEl.innerText !== seconds.toString()) {
+        secondsEl.classList.add("flipping");
+        secondsEl.setAttribute("data-old", secondsEl.innerText);
+        secondsEl.setAttribute("data-new", seconds);
+        secondsEl.innerText = seconds;
+    }
+
+    // Play tick sound and vibrate when under 30 seconds
+    if (timeLeft > 0 && timeLeft < 30000) {
+        document.getElementById("tickSound").play();
+        if (timeLeft < 10000 && 'vibrate' in navigator) {
+            navigator.vibrate([200, 100, 200]);
+        }
+    }
+
+    // Notifications and dramatic sound
+    if (timeLeft > 0 && timeLeft < 120000 && 'vibrate' in navigator) navigator.vibrate([500, 500]);
+    if (timeLeft > 0 && timeLeft < 30000) document.getElementById("dramaticSound").play();
+    if (timeLeft > 0 && timeLeft < 300000 && notifyOn) alert("Bus dropping in 5 minutes!");
+
+    // Update progress bar
+    const progressPercent = Math.max(0, (1 - timeLeft / BUS_INTERVAL)) * 100;
+    document.getElementById("timerProgress").style.width = `${progressPercent}%`;
+
+    const nextThree = getNextThreeBuses(times);
+    document.getElementById("nextBusesList").innerHTML = nextThree.map(t => `<li>${t.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</li>`).join('');
+}
+
+// Toggle pause/resume on timer click
+document.getElementById("timerWrapper").addEventListener("click", () => {
+    isPaused = !isPaused;
+    const timerState = document.getElementById("timerState");
+    timerState.innerText = isPaused ? "▶️" : "⏸️";
+    timerState.classList.toggle("active", true);
+    if (!isPaused) {
+        lastUpdate = Date.now();
+        setTimeout(() => timerState.classList.remove("active"), 1000);
+    }
+});
+
+// Route selection
+document.getElementById("routeSelect").addEventListener("change", (e) => {
+    currentRoute = parseInt(e.target.value);
+    nextBus = null;
+    timeLeft = 0;
+    updateCountdown();
+});
+
+// Dark Mode Toggle
+let mode = parseInt(localStorage.getItem("mode") || "0");
+document.getElementById("modeToggle").addEventListener("click", () => {
+    mode = (mode + 1) % 3;
+    localStorage.setItem("mode", mode);
+    document.body.className = mode === 1 ? "dark-mode" : mode === 2 ? "darker-mode" : "";
+});
+document.body.className = mode === 1 ? "dark-mode" : mode === 2 ? "darker-mode" : "";
+
+// Notification Toggle
+let notifyOn = false;
+document.getElementById("notifyToggle").addEventListener("click", () => {
+    notifyOn = !notifyOn;
+    document.getElementById("notifyToggle").innerText = notifyOn ? "🔕" : "🔔";
+});
+
+// Refresh Button
+document.getElementById("refreshBtn").addEventListener("click", () => {
+    nextBus = null;
+    timeLeft = 0;
+    updateCountdown();
+});
+
+// Caught Bus Button
+document.getElementById("caughtBtn").addEventListener("click", () => {
+    document.getElementById("caughtBusSound").play();
+    nextBus = getNextBus(busSchedules[currentRoute].times.map(t => t.arrival));
+    document.getElementById("nextBus").innerText = nextBus.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    timeLeft = nextBus - Date.now();
+});
+
+// Full Schedule Modal
+const modal = document.getElementById("scheduleModal");
+document.getElementById("scheduleBtn").addEventListener("click", () => {
+    const schedule = busSchedules[currentRoute];
+    let html = "<ul>";
+    schedule.times.forEach(t => {
+        html += `<li>${t.departure} → ${t.arrival}</li>`;
+    });
+    html += "</ul>";
+    document.getElementById("fullSchedule").innerHTML = html;
+    modal.style.display = "block";
+});
+document.querySelector(".close").addEventListener("click", () => modal.style.display = "none");
+window.addEventListener("click", (e) => { if (e.target === modal) modal.style.display = "none"; });
+
+// Offline Warning
+window.addEventListener('offline', () => {
+    alert("You're offline! Bus times may not update.");
+});
+
+// Initialize
+setInterval(updateCountdown, 1000);
+updateCountdown();

@@ -267,6 +267,12 @@ section {
     color: #B0BEC5;
 }
 
+#fullSchedule .aa-label {
+    color: #D32F2F;
+    font-size: 0.8rem;
+    margin-left: 5px;
+}
+
 #jokeText {
     font-size: 1rem;
     margin-bottom: 20px;
@@ -354,5 +360,9 @@ section {
 
     .live-tracking-link {
         font-size: 0.8rem;
+    }
+
+    #fullSchedule .aa-label {
+        font-size: 0.75rem;
     }
 }

@@ -121,7 +121,7 @@ window.addEventListener("click", (e) => {
     }
 });
 
-// Bus Schedules (Updated with new route and AA annotations)
+// Bus Schedules (Unchanged)
 const busSchedules = [
     {
         route: "University Union → Leroy & Beethoven St",
@@ -374,7 +374,12 @@ document.getElementById("refreshBtn").addEventListener("click", () => {
 const modal = document.getElementById("scheduleModal");
 document.getElementById("scheduleBtn").addEventListener("click", () => {
     const schedule = busSchedules[currentRoute];
-    let html = "<ul>";
+    let html = "";
+    // Add AA explanation for DCL Inbound routes (routes 1 and 2)
+    if (currentRoute === 1 || currentRoute === 2) {
+        html += '<p class="aa-explanation">(AA) means this bus does not stop at Hinman / Academic A on weekdays.</p>';
+    }
+    html += "<ul>";
     schedule.times.forEach(t => {
         const aaLabel = t.aa ? '<span class="aa-label">(AA)</span>' : '';
         html += `<li>${t.departure} → ${t.arrival} ${aaLabel}</li>`;
@@ -389,7 +394,11 @@ window.addEventListener("click", (e) => { if (e.target === modal) modal.style.di
 // Copy Schedule to Clipboard
 document.getElementById("copyScheduleBtn").addEventListener("click", () => {
     const schedule = busSchedules[currentRoute];
-    const scheduleText = schedule.times.map(t => `${t.departure} → ${t.arrival}${t.aa ? ' (AA)' : ''}`).join("\n");
+    let scheduleText = "";
+    if (currentRoute === 1 || currentRoute === 2) {
+        scheduleText += "(AA) means this bus does not stop at Hinman / Academic A on weekdays.\n\n";
+    }
+    scheduleText += schedule.times.map(t => `${t.departure} → ${t.arrival}${t.aa ? ' (AA)' : ''}`).join("\n");
     navigator.clipboard.writeText(scheduleText).then(() => {
         alert("Schedule copied to clipboard!");
     });

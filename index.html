@@ -10,6 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Offline Banner -->
+    <div id="offlineBanner" class="offline-banner" style="display: none;">
+        You're offline! Bus times may not update.
+    </div>
+
     <!-- Header -->
     <header class="header">
         <h1>Fortnite Bus</h1>
@@ -18,15 +23,17 @@
     <!-- Main Content -->
     <main class="main">
         <section class="timer-section">
-            <div class="timer" id="timerWrapper">
-                <div class="timer-display" id="countdown">0m 0s</div>
+            <div class="timer" id="timerWrapper" aria-label="Tap to pause or resume timer">
+                <div class="timer-label">Time Until Next Bus</div>
+                <div class="timer-display" id="countdown" aria-live="polite">0m 0s</div>
                 <div class="timer-progress">
                     <div id="timerProgress" class="timer-progress-fill"></div>
                 </div>
+                <div class="timer-state" id="timerState">Running</div>
             </div>
         </section>
 
-        <section class="route-section">
+        <section class="route-section" id="routeSection">
             <select id="routeSelect" aria-label="Select Bus Route">
                 <option value="0">Union → Leroy & Murray</option>
                 <option value="1">Downtown → Leroy & Murray</option>
@@ -43,7 +50,10 @@
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <button id="refreshBtn" aria-label="Refresh">🔄</button>
+        <button id="refreshBtn" aria-label="Refresh">
+            <span class="button-icon">🔄</span>
+            <span class="button-spinner" style="display: none;">⏳</span>
+        </button>
         <button id="scheduleBtn" aria-label="Full Schedule">📅</button>
         <a href="https://occtransport.org/pages/routes/dcl-in.html" target="_blank" id="busTimesLink" class="nav-button" aria-label="More Bus Times">🚌</a>
     </nav>
@@ -54,6 +64,7 @@
             <span class="close" aria-label="Close">×</span>
             <h2>Full Schedule</h2>
             <div id="fullSchedule"></div>
+            <button id="copyScheduleBtn" class="modal-button">Copy Schedule</button>
         </div>
     </div>
 
@@ -63,7 +74,23 @@
             <span class="close" aria-label="Close">×</span>
             <h2>Dark Humor of the Day</h2>
             <p id="jokeText"></p>
-            <button id="closeJokeBtn" class="modal-button">Close</button>
+            <div class="modal-actions">
+                <label class="dont-show-label">
+                    <input type="checkbox" id="dontShowJoke"> Don’t Show Again Today
+                </label>
+                <button id="closeJokeBtn" class="modal-button">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Missed Buses -->
+    <div id="missedBusModal" class="modal">
+        <div class="modal-content">
+            <span class="close" aria-label="Close">×</span>
+            <h2>Missed Buses</h2>
+            <p>You’ve missed <span id="missedBusCount"></span> buses! Better luck next time.</p>
+            <button id="resetMissedBtn" class="modal-button">Reset Counter</button>
+            <button id="closeMissedBtn" class="modal-button">Close</button>
         </div>
     </div>
 

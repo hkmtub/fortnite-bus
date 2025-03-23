@@ -35,11 +35,14 @@
 
         <section class="route-section" id="routeSection">
             <select id="routeSelect" aria-label="Select Bus Route">
-                <option value="0">UDC → Leroy & Murray</option>
-                <option value="1">Riverside → Leroy & Murray</option>
-                <option value="2">Leroy & Murray → UDC</option>
+                <option value="0">Union → Leroy & Murray</option>
+                <option value="1">Downtown → Leroy & Murray</option>
+                <option value="2">Leroy & Murray → Downtown</option>
             </select>
             <p>Next Bus: <span id="nextBus"></span></p>
+            <p class="live-tracking-link">
+                <a href="https://binghamtonupublic.etaspot.net/" target="_blank" aria-label="Live Bus Tracking">Track Live on ETA SPOT</a>
+            </p>
         </section>
 
         <section class="next-buses-section">
@@ -56,7 +59,6 @@
         </button>
         <button id="scheduleBtn" aria-label="Full Schedule">📅</button>
         <a href="https://occtransport.org/pages/routes/dcl-in.html" target="_blank" id="busTimesLink" class="nav-button" aria-label="More Bus Times">🚌</a>
-        <a href="https://binghamtonupublic.etaspot.net/" target="_blank" id="liveTrackingLink" class="nav-button" aria-label="Live Bus Tracking">📍</a>
     </nav>
 
     <!-- Modal for Full Schedule -->

@@ -273,6 +273,13 @@ section {
     margin-left: 5px;
 }
 
+#fullSchedule .aa-explanation {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: #B0BEC5;
+    margin-bottom: 10px;
+}
+
 #jokeText {
     font-size: 1rem;
     margin-bottom: 20px;
@@ -363,6 +370,10 @@ section {
     }
 
     #fullSchedule .aa-label {
+        font-size: 0.75rem;
+    }
+
+    #fullSchedule .aa-explanation {
         font-size: 0.75rem;
     }
 }

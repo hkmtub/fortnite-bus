@@ -87,12 +87,34 @@ function getRandomJoke() {
     return jokes[randomIndex];
 }
 
+// Check if joke should be shown (based on "Don't Show Again Today")
+function shouldShowJoke() {
+    const lastHidden = localStorage.getItem("hideJokeUntil");
+    if (!lastHidden) return true;
+    const now = new Date();
+    const hideUntil = new Date(lastHidden);
+    return now > hideUntil;
+}
+
 // Display the joke modal on page load
 window.addEventListener('load', () => {
-    const jokeModal = document.getElementById("jokeModal");
-    const jokeText = document.getElementById("jokeText");
-    jokeText.innerText = getRandomJoke();
-    jokeModal.style.display = "block";
+    if (shouldShowJoke()) {
+        const jokeModal = document.getElementById("jokeModal");
+        const jokeText = document.getElementById("jokeText");
+        jokeText.innerText = getRandomJoke();
+        jokeModal.style.display = "block";
+    }
+});
+
+// Handle "Don't Show Again Today" checkbox
+document.getElementById("dontShowJoke").addEventListener("change", (e) => {
+    if (e.target.checked) {
+        const now = new Date();
+        const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+        localStorage.setItem("hideJokeUntil", tomorrow.toISOString());
+    } else {
+        localStorage.removeItem("hideJokeUntil");
+    }
 });
 
 // Close the joke modal
@@ -212,7 +234,7 @@ function getNextThreeBuses(times) {
 }
 
 // Timer state
-let currentRoute = 0;
+let currentRoute = parseInt(localStorage.getItem("selectedRoute") || "0");
 let nextBus = null;
 let isPaused = false;
 let lastUpdate = Date.now();
@@ -239,7 +261,11 @@ function updateCountdown() {
     if (timeLeft <= 0) {
         let misses = parseInt(localStorage.getItem("misses") || "0") + 1;
         localStorage.setItem("misses", misses);
-        if (misses >= 3) alert("You’re a noob at catching the bus!");
+        if (misses >= 3) {
+            const missedBusModal = document.getElementById("missedBusModal");
+            document.getElementById("missedBusCount").innerText = misses;
+            missedBusModal.style.display = "block";
+        }
         nextBus = getNextBus(times);
         document.getElementById("nextBus").innerText = nextBus.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
         timeLeft = nextBus - now;
@@ -275,21 +301,37 @@ document.getElementById("timerWrapper").addEventListener("click", () => {
     if (!isPaused) {
         lastUpdate = Date.now();
     }
+    const timerState = document.getElementById("timerState");
+    timerState.innerText = isPaused ? "Paused" : "Running";
+    timerState.classList.toggle("paused", isPaused);
 });
 
 // Route selection
 document.getElementById("routeSelect").addEventListener("change", (e) => {
     currentRoute = parseInt(e.target.value);
+    localStorage.setItem("selectedRoute", currentRoute);
     nextBus = null;
     timeLeft = 0;
     updateCountdown();
 });
 
-// Refresh Button
+// Initialize route selection
+document.getElementById("routeSelect").value = currentRoute;
+
+// Refresh Button with Loading State
 document.getElementById("refreshBtn").addEventListener("click", () => {
-    nextBus = null;
-    timeLeft = 0;
-    updateCountdown();
+    const refreshBtn = document.getElementById("refreshBtn");
+    const icon = refreshBtn.querySelector(".button-icon");
+    const spinner = refreshBtn.querySelector(".button-spinner");
+    icon.style.display = "none";
+    spinner.style.display = "inline";
+    setTimeout(() => {
+        nextBus = null;
+        timeLeft = 0;
+        updateCountdown();
+        icon.style.display = "inline";
+        spinner.style.display = "none";
+    }, 1000);
 });
 
 // Full Schedule Modal
@@ -307,11 +349,4 @@ document.getElementById("scheduleBtn").addEventListener("click", () => {
 document.querySelector("#scheduleModal .close").addEventListener("click", () => modal.style.display = "none");
 window.addEventListener("click", (e) => { if (e.target === modal) modal.style.display = "none"; });
 
-// Offline Warning
-window.addEventListener('offline', () => {
-    alert("You're offline! Bus times may not update.");
-});
-
-// Initialize
-setInterval(updateCountdown, 1000);
-updateCountdown();
+// Cop

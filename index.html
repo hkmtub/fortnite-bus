@@ -7,7 +7,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <title>Fortnite Bus</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Offline Banner -->
@@ -25,9 +25,12 @@
         <section class="timer-section">
             <div class="timer" id="timerWrapper" aria-label="Tap to pause or resume timer">
                 <div class="timer-label">Time Until Next Bus</div>
-                <div class="timer-display" id="countdown" aria-live="polite">0m 0s</div>
-                <div class="timer-progress">
-                    <div id="timerProgress" class="timer-progress-fill"></div>
+                <div class="timer-circle">
+                    <svg class="progress-ring" width="120" height="120">
+                        <circle class="progress-ring-circle" cx="60" cy="60" r="54" />
+                        <circle id="progressRing" class="progress-ring-fill" cx="60" cy="60" r="54" />
+                    </svg>
+                    <div class="timer-display" id="countdown" aria-live="polite">0m 0s</div>
                 </div>
                 <div class="timer-state" id="timerState">Running</div>
             </div>
@@ -50,12 +53,12 @@
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <button id="refreshBtn" aria-label="Refresh">
+        <button id="refreshBtn" aria-label="Refresh" data-tooltip="Refresh">
             <span class="button-icon">🔄</span>
             <span class="button-spinner" style="display: none;">⏳</span>
         </button>
-        <button id="scheduleBtn" aria-label="Full Schedule">📅</button>
-        <a href="https://occtransport.org/pages/routes/dcl-in.html" target="_blank" id="busTimesLink" class="nav-button" aria-label="More Bus Times">🚌</a>
+        <button id="scheduleBtn" aria-label="Full Schedule" data-tooltip="Full Schedule">📅</button>
+        <a href="https://occtransport.org/pages/routes/dcl-in.html" target="_blank" id="busTimesLink" class="nav-button" aria-label="More Bus Times" data-tooltip="More Bus Times">🚌</a>
     </nav>
 
     <!-- Modal for Full Schedule -->

@@ -121,7 +121,7 @@ window.addEventListener("click", (e) => {
     }
 });
 
-// Bus Schedules (Updated for DCL Outbound and Inbound, focusing on Leroy St)
+// Bus Schedules (Updated with new route and AA annotations)
 const busSchedules = [
     {
         route: "University Union → Leroy & Beethoven St",
@@ -164,21 +164,21 @@ const busSchedules = [
         times: [
             { departure: "7:40 AM", arrival: "7:43 AM" },
             { departure: "7:45 AM", arrival: "7:48 AM" },
-            { departure: "8:15 AM", arrival: "8:18 AM" },
+            { departure: "8:15 AM", arrival: "8:18 AM", aa: true },
             { departure: "8:45 AM", arrival: "8:48 AM" },
-            { departure: "9:20 AM", arrival: "9:23 AM" },
-            { departure: "9:35 AM", arrival: "9:38 AM" },
+            { departure: "9:20 AM", arrival: "9:23 AM", aa: true },
+            { departure: "9:35 AM", arrival: "9:38 AM", aa: true },
             { departure: "10:10 AM", arrival: "10:13 AM" },
-            { departure: "10:25 AM", arrival: "10:28 AM" },
-            { departure: "10:45 AM", arrival: "10:48 AM" },
-            { departure: "11:50 AM", arrival: "11:53 AM" },
+            { departure: "10:25 AM", arrival: "10:28 AM", aa: true },
+            { departure: "10:45 AM", arrival: "10:48 AM", aa: true },
+            { departure: "11:50 AM", arrival: "11:53 AM", aa: true },
             { departure: "12:05 PM", arrival: "12:08 PM" },
             { departure: "12:25 PM", arrival: "12:28 PM" },
-            { departure: "12:40 PM", arrival: "12:43 PM" },
+            { departure: "12:40 PM", arrival: "12:43 PM", aa: true },
             { departure: "1:15 PM", arrival: "1:18 PM" },
-            { departure: "1:45 PM", arrival: "1:48 PM" },
-            { departure: "2:20 PM", arrival: "2:23 PM" },
-            { departure: "3:10 PM", arrival: "3:13 PM" },
+            { departure: "1:45 PM", arrival: "1:48 PM", aa: true },
+            { departure: "2:20 PM", arrival: "2:23 PM", aa: true },
+            { departure: "3:10 PM", arrival: "3:13 PM", aa: true },
             { departure: "3:25 PM", arrival: "3:28 PM" },
             { departure: "3:45 PM", arrival: "3:48 PM" },
             { departure: "4:50 PM", arrival: "4:53 PM" },
@@ -193,6 +193,43 @@ const busSchedules = [
             { departure: "10:35 PM", arrival: "10:38 PM" },
             { departure: "11:25 PM", arrival: "11:28 PM" },
             { departure: "12:20 AM", arrival: "12:23 AM" }
+        ]
+    },
+    {
+        route: "Leroy & Front St → University Union",
+        type: "arriving",
+        times: [
+            { departure: "7:43 AM", arrival: "8:00 AM" },
+            { departure: "7:48 AM", arrival: "8:05 AM" },
+            { departure: "8:18 AM", arrival: "8:35 AM", aa: true },
+            { departure: "8:48 AM", arrival: "9:05 AM" },
+            { departure: "9:23 AM", arrival: "9:40 AM", aa: true },
+            { departure: "9:38 AM", arrival: "9:55 AM", aa: true },
+            { departure: "10:13 AM", arrival: "10:30 AM" },
+            { departure: "10:28 AM", arrival: "10:45 AM", aa: true },
+            { departure: "10:48 AM", arrival: "11:05 AM", aa: true },
+            { departure: "11:53 AM", arrival: "12:10 PM", aa: true },
+            { departure: "12:08 PM", arrival: "12:25 PM" },
+            { departure: "12:28 PM", arrival: "12:45 PM" },
+            { departure: "12:43 PM", arrival: "1:00 PM", aa: true },
+            { departure: "1:18 PM", arrival: "1:35 PM" },
+            { departure: "1:48 PM", arrival: "2:05 PM", aa: true },
+            { departure: "2:23 PM", arrival: "2:40 PM", aa: true },
+            { departure: "3:13 PM", arrival: "3:30 PM", aa: true },
+            { departure: "3:28 PM", arrival: "3:45 PM" },
+            { departure: "3:48 PM", arrival: "4:05 PM" },
+            { departure: "4:53 PM", arrival: "5:10 PM" },
+            { departure: "5:38 PM", arrival: "5:55 PM" },
+            { departure: "6:13 PM", arrival: "6:30 PM" },
+            { departure: "7:03 PM", arrival: "7:20 PM" },
+            { departure: "7:18 PM", arrival: "7:35 PM" },
+            { departure: "7:53 PM", arrival: "8:10 PM" },
+            { departure: "8:43 PM", arrival: "9:00 PM" },
+            { departure: "8:58 PM", arrival: "9:15 PM" },
+            { departure: "10:13 PM", arrival: "10:30 PM" },
+            { departure: "10:38 PM", arrival: "10:55 PM" },
+            { departure: "11:28 PM", arrival: "11:45 PM" },
+            { departure: "12:23 AM", arrival: "12:40 AM" }
         ]
     }
 ];
@@ -214,18 +251,18 @@ function parseTime(timeStr) {
 function getNextBus(times) {
     const now = new Date();
     for (let time of times) {
-        const busTime = parseTime(time);
+        const busTime = parseTime(time.arrival);
         if (busTime > now) return busTime;
     }
-    return parseTime(times[0]);
+    return parseTime(times[0].arrival);
 }
 
 // Get next 3 buses
 function getNextThreeBuses(times) {
     const now = new Date();
-    const upcoming = times.map(t => parseTime(t)).filter(t => t > now).slice(0, 3);
+    const upcoming = times.map(t => parseTime(t.arrival)).filter(t => t > now).slice(0, 3);
     if (upcoming.length < 3) {
-        const firstTomorrow = times.slice(0, 3 - upcoming.length).map(t => parseTime(t));
+        const firstTomorrow = times.slice(0, 3 - upcoming.length).map(t => parseTime(t.arrival));
         firstTomorrow.forEach(t => t.setDate(t.getDate() + 1));
         upcoming.push(...firstTomorrow);
     }
@@ -246,7 +283,7 @@ function updateCountdown() {
 
     const now = Date.now();
     const schedule = busSchedules[currentRoute];
-    const times = schedule.times.map(t => t.arrival);
+    const times = schedule.times;
 
     if (!nextBus || nextBus < new Date()) {
         nextBus = getNextBus(times);
@@ -339,7 +376,8 @@ document.getElementById("scheduleBtn").addEventListener("click", () => {
     const schedule = busSchedules[currentRoute];
     let html = "<ul>";
     schedule.times.forEach(t => {
-        html += `<li>${t.departure} → ${t.arrival}</li>`;
+        const aaLabel = t.aa ? '<span class="aa-label">(AA)</span>' : '';
+        html += `<li>${t.departure} → ${t.arrival} ${aaLabel}</li>`;
     });
     html += "</ul>";
     document.getElementById("fullSchedule").innerHTML = html;
@@ -351,7 +389,7 @@ window.addEventListener("click", (e) => { if (e.target === modal) modal.style.di
 // Copy Schedule to Clipboard
 document.getElementById("copyScheduleBtn").addEventListener("click", () => {
     const schedule = busSchedules[currentRoute];
-    const scheduleText = schedule.times.map(t => `${t.departure} → ${t.arrival}`).join("\n");
+    const scheduleText = schedule.times.map(t => `${t.departure} → ${t.arrival}${t.aa ? ' (AA)' : ''}`).join("\n");
     navigator.clipboard.writeText(scheduleText).then(() => {
         alert("Schedule copied to clipboard!");
     });

@@ -7,62 +7,44 @@
     <meta name="mobile-web-app-capable" content="yes">
     <title>Fortnite Bus</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="background"></div>
-    
     <!-- Header -->
-    <header class="app-header">
+    <header class="header">
         <h1>Fortnite Bus</h1>
     </header>
 
     <!-- Main Content -->
-    <main class="app-content">
-        <div class="card timer-card">
-            <div class="timer-wrapper" id="timerWrapper">
-                <div class="timer-text">
-                    <span id="countdown">
-                        <span class="flip-wrapper">
-                            <span id="minutes" class="flip-digit">0</span>m
-                        </span>
-                        <span class="flip-wrapper">
-                            <span id="seconds" class="flip-digit">0</span>s
-                        </span>
-                    </span>
-                </div>
-                <div class="progress-bar">
-                    <div id="timerProgress" class="progress-bar__fill"></div>
+    <main class="main">
+        <section class="timer-section">
+            <div class="timer" id="timerWrapper">
+                <div class="timer-display" id="countdown">0m 0s</div>
+                <div class="timer-progress">
+                    <div id="timerProgress" class="timer-progress-fill"></div>
                 </div>
             </div>
-        </div>
-        <div class="card">
-            <div class="route-picker">
-                <select id="routeSelect" aria-label="Select Bus Route">
-                    <option value="0">Union → Leroy & Murray</option>
-                    <option value="1">Downtown → Leroy & Murray</option>
-                    <option value="2">Leroy & Murray → Downtown</option>
-                </select>
-            </div>
-            <p>Next Bus: <span id="nextBus"></span></p>
-        </div>
-        <div class="card">
-            <div class="next-buses">
-                <h3>Next 3 Buses</h3>
-                <ul id="nextBusesList"></ul>
-            </div>
-        </div>
-    </main>
+        </section>
 
-    <!-- Floating Action Button -->
-    <button id="caughtBtn" class="fab" aria-label="I Dropped In">✈️</button>
+        <section class="route-section">
+            <select id="routeSelect" aria-label="Select Bus Route">
+                <option value="0">Union → Leroy & Murray</option>
+                <option value="1">Downtown → Leroy & Murray</option>
+                <option value="2">Leroy & Murray → Downtown</option>
+            </select>
+            <p>Next Bus: <span id="nextBus"></span></p>
+        </section>
+
+        <section class="next-buses-section">
+            <h2>Next 3 Buses</h2>
+            <ul id="nextBusesList"></ul>
+        </section>
+    </main>
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
         <button id="refreshBtn" aria-label="Refresh">🔄</button>
         <button id="scheduleBtn" aria-label="Full Schedule">📅</button>
-        <button id="modeToggle" aria-label="Toggle Dark Mode">🌙</button>
-        <button id="notifyToggle" aria-label="Toggle Notifications">🔔</button>
         <a href="https://occtransport.org/pages/routes/dcl-in.html" target="_blank" id="busTimesLink" class="nav-button" aria-label="More Bus Times">🚌</a>
     </nav>
 

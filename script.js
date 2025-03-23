@@ -109,7 +109,8 @@ function updateCurrentTime() {
 // Update countdown and next buses
 let currentRoute = 0;
 let nextBus = null;
-let catFloating = true; // Track if cat is in floating mode
+let catFloating = true;
+const BUS_INTERVAL = 15 * 60 * 1000; // Assume 15-minute intervals for progress bar (adjust as needed)
 function updateCountdown() {
     const schedule = busSchedules[currentRoute];
     const times = schedule.times.map(t => t.arrival);
@@ -135,10 +136,13 @@ function updateCountdown() {
     if (timeLeft > 0 && timeLeft < 30000 && !document.body.classList.contains("eco-mode")) document.getElementById("dramaticSound").play();
     if (timeLeft > 0 && timeLeft < 300000 && notifyOn) alert("Bus dropping in 5 minutes!");
 
+    // Update progress bar
+    const progressPercent = Math.max(0, (1 - timeLeft / BUS_INTERVAL) * 100);
+    document.getElementById("progressFill").style.width = `${progressPercent}%`;
+
     // Handle cat GIF behavior
     const catGif = document.getElementById("catGif");
     if (catFloating && document.getElementById("loading").style.display === "none") {
-        // After loading screen, keep floating until 5-minute mark
         if (timeLeft > 290000 && timeLeft <= 300000 && !document.body.classList.contains("eco-mode")) {
             catFloating = false;
             catGif.classList.add("countdown-mode");
@@ -153,6 +157,9 @@ function updateCountdown() {
 
     const nextThree = getNextThreeBuses(times);
     document.getElementById("nextBusesList").innerHTML = nextThree.map(t => `<li>${t.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</li>`).join('');
+    
+    // Update current route display
+    document.getElementById("currentRoute").innerText = `Route: ${busSchedules[currentRoute].route}`;
 }
 
 // Route selection
@@ -187,6 +194,12 @@ let notifyOn = false;
 document.getElementById("notifyToggle").addEventListener("click", () => {
     notifyOn = !notifyOn;
     document.getElementById("notifyToggle").innerText = notifyOn ? "🔕" : "🔔";
+});
+
+// Refresh Button
+document.getElementById("refreshBtn").addEventListener("click", () => {
+    nextBus = null;
+    updateCountdown();
 });
 
 // Try Your Luck
@@ -224,6 +237,11 @@ fullScheduleBtn.addEventListener("click", () => {
 });
 closeBtn.addEventListener("click", () => modal.style.display = "none");
 window.addEventListener("click", (e) => { if (e.target === modal) modal.style.display = "none"; });
+
+// Offline Warning
+window.addEventListener('offline', () => {
+    alert("You're offline! Bus times may not update.");
+});
 
 // Initialize
 document.getElementById("routeName").innerText = busSchedules[0].route;

@@ -20,12 +20,22 @@
     <!-- Main Content -->
     <main class="app-content">
         <div class="card">
-            <div class="timer-wrapper">
+            <div class="timer-wrapper" id="timerWrapper">
                 <div class="timer-bar">
-                    <div id="timerProgress" class="timer-progress"></div>
+                    <div id="timerProgress" class="timer-progress">
+                        <div class="shimmer"></div>
+                    </div>
                 </div>
                 <div class="timer-text">
-                    <span id="countdown">0m 0s</span>
+                    <span id="countdown">
+                        <span class="flip-wrapper">
+                            <span id="minutes" class="flip-digit">0</span>m
+                        </span>
+                        <span class="flip-wrapper">
+                            <span id="seconds" class="flip-digit">0</span>s
+                        </span>
+                    </span>
+                    <span id="timerState" class="timer-state">⏸️</span>
                 </div>
             </div>
             <div class="route-picker">
@@ -51,6 +61,7 @@
             <button id="scheduleBtn" aria-label="Full Schedule">📅</button>
             <button id="modeToggle" aria-label="Toggle Dark Mode">🌙</button>
             <button id="notifyToggle" aria-label="Toggle Notifications">🔔</button>
+            <a href="https://occtransport.org/pages/routes/dcl-in.html" target="_blank" id="busTimesLink" class="button" aria-label="More Bus Times">🚌</a>
         </div>
         <p class="joke">Why was the student late? He was stuck in a lecture loop!</p>
     </footer>
@@ -68,6 +79,7 @@
     <audio id="missedBusSound" src="sounds/sad-trombone.mp3"></audio>
     <audio id="caughtBusSound" src="sounds/victory-royale.mp3"></audio>
     <audio id="dramaticSound" src="sounds/fortnite-drop.mp3"></audio>
+    <audio id="tickSound" src="sounds/tick.mp3"></audio>
 
     <script src="script.js"></script>
 </body>

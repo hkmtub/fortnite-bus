@@ -19,25 +19,28 @@
 
     <!-- Main Content -->
     <main class="app-content">
-        <div class="card">
+        <div class="card timer-card">
             <div class="timer-wrapper" id="timerWrapper">
-                <div class="timer-bar">
-                    <div id="timerProgress" class="timer-progress">
-                        <div class="shimmer"></div>
+                <div class="timer-circle">
+                    <svg class="progress-ring" width="200" height="200">
+                        <circle class="progress-ring__circle-bg" cx="100" cy="100" r="90" />
+                        <circle id="timerProgress" class="progress-ring__circle" cx="100" cy="100" r="90" />
+                    </svg>
+                    <div class="timer-text">
+                        <span id="countdown">
+                            <span class="flip-wrapper">
+                                <span id="minutes" class="flip-digit">0</span>m
+                            </span>
+                            <span class="flip-wrapper">
+                                <span id="seconds" class="flip-digit">0</span>s
+                            </span>
+                        </span>
+                        <span id="timerState" class="timer-state">⏸️</span>
                     </div>
                 </div>
-                <div class="timer-text">
-                    <span id="countdown">
-                        <span class="flip-wrapper">
-                            <span id="minutes" class="flip-digit">0</span>m
-                        </span>
-                        <span class="flip-wrapper">
-                            <span id="seconds" class="flip-digit">0</span>s
-                        </span>
-                    </span>
-                    <span id="timerState" class="timer-state">⏸️</span>
-                </div>
             </div>
+        </div>
+        <div class="card">
             <div class="route-picker">
                 <select id="routeSelect" aria-label="Select Bus Route">
                     <option value="0">Union → Leroy & Murray</option>
@@ -46,6 +49,8 @@
                 </select>
             </div>
             <p>Next Bus: <span id="nextBus"></span></p>
+        </div>
+        <div class="card">
             <div class="next-buses">
                 <h3>Next 3 Buses</h3>
                 <ul id="nextBusesList"></ul>
@@ -53,18 +58,17 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="app-footer">
-        <div class="controls">
-            <button id="caughtBtn" aria-label="I Dropped In">✈️</button>
-            <button id="refreshBtn" aria-label="Refresh">🔄</button>
-            <button id="scheduleBtn" aria-label="Full Schedule">📅</button>
-            <button id="modeToggle" aria-label="Toggle Dark Mode">🌙</button>
-            <button id="notifyToggle" aria-label="Toggle Notifications">🔔</button>
-            <a href="https://occtransport.org/pages/routes/dcl-in.html" target="_blank" id="busTimesLink" class="button" aria-label="More Bus Times">🚌</a>
-        </div>
-        <p class="joke">Why was the student late? He was stuck in a lecture loop!</p>
-    </footer>
+    <!-- Floating Action Button -->
+    <button id="caughtBtn" class="fab" aria-label="I Dropped In">✈️</button>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <button id="refreshBtn" aria-label="Refresh">🔄</button>
+        <button id="scheduleBtn" aria-label="Full Schedule">📅</button>
+        <button id="modeToggle" aria-label="Toggle Dark Mode">🌙</button>
+        <button id="notifyToggle" aria-label="Toggle Notifications">🔔</button>
+        <a href="https://occtransport.org/pages/routes/dcl-in.html" target="_blank" id="busTimesLink" class="nav-button" aria-label="More Bus Times">🚌</a>
+    </nav>
 
     <!-- Modal for Full Schedule -->
     <div id="scheduleModal" class="modal">

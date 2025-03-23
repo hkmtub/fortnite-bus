@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fortnite Bus - Drop In On Time</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Bangers&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="background"></div>
@@ -16,8 +16,10 @@
             <button id="modeToggle">Toggle Dark Mode</button>
             <button id="ecoToggle">Eco Mode</button>
             <button id="notifyToggle" aria-label="Toggle Notifications">🔔</button>
+            <button id="refreshBtn" aria-label="Refresh Countdown">🔄</button>
         </div>
         <p id="currentTime"></p>
+        <p id="currentRoute" class="current-route"></p>
     </header>
 
     <div id="loading" class="loading">Dropping into the bus zone…</div>
@@ -32,7 +34,12 @@
         <div class="route-info">
             <h2 id="routeName"></h2>
             <p>Next bus drops at: <span id="nextBus"></span></p>
-            <p>Time to drop: <span id="countdown"></span></p>
+            <div class="countdown-wrapper">
+                <p>Time to drop: <span id="countdown"></span></p>
+                <div class="progress-bar">
+                    <div id="progressFill"></div>
+                </div>
+            </div>
             <img id="catGif" src="images/dancing-cat.gif" alt="Dancing Cat" class="cat-gif">
             <div class="next-buses">
                 <h3>Next 3 Buses</h3>

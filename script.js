@@ -620,12 +620,12 @@ document.getElementById("refreshBtn").addEventListener("click", () => {
     const icon = refreshBtn.querySelector(".button-icon");
     const spinner = refreshBtn.querySelector(".button-spinner");
     icon.style.display = "none";
-    spinner.style.display = "inline";
+    spinner.style.display = "inline-block";
     setTimeout(() => {
         nextBus = null;
         timeLeft = 0;
         updateCountdown();
-        icon.style.display = "inline";
+        icon.style.display = "inline-block";
         spinner.style.display = "none";
     }, 1000);
 });
@@ -721,20 +721,19 @@ function adjustHeaderPadding() {
     const offlineBanner = document.getElementById("offlineBanner");
     const header = document.querySelector(".header");
     const routeSection = document.querySelector(".route-section");
-    const bannerHeight = offlineBanner.offsetHeight || 0; // Dynamically get the banner height
-    const headerHeight = header.offsetHeight || 0; // Dynamically get the header height
+    const bannerHeight = offlineBanner.offsetHeight || 0;
+    const headerHeight = header.offsetHeight || 0;
 
     if (offlineBanner.style.display === "block") {
         header.style.top = `${bannerHeight}px`;
-        routeSection.style.top = `${bannerHeight + headerHeight}px`; // Shift route section below header
+        routeSection.style.top = `${bannerHeight + headerHeight}px`;
     } else {
         header.style.top = "0";
-        routeSection.style.top = `${headerHeight}px`; // Adjust route section to be below header
+        routeSection.style.top = `${headerHeight}px`;
     }
 
-    // Adjust main content padding to account for the header and banner
     const main = document.querySelector(".main");
-    main.style.paddingTop = `${bannerHeight + headerHeight + 20}px`; // Add extra padding for spacing
+    main.style.paddingTop = `${bannerHeight + headerHeight + 25}px`;
 }
 
 // Initialize
@@ -742,5 +741,5 @@ setInterval(updateCountdown, 1000);
 updateCountdown();
 adjustHeaderPadding();
 
-// Ensure header adjusts on window resize (e.g., if font size changes)
+// Ensure header adjusts on window resize
 window.addEventListener('resize', adjustHeaderPadding);

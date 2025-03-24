@@ -1,5 +1,6 @@
 // Jokes Array
 const jokes = [
+    // Existing Jokes
     "Capitalism: where you’re free to succeed… or free to sleep on the street.",
     "I told my boss I need a raise—turns out, the only thing rising is the CEO’s bonus.",
     "Capitalism loves competition, unless you’re competing with the 1%.",
@@ -69,7 +70,49 @@ const jokes = [
     "Trump’s administration: where the only thing transparent was the corruption.",
     "Trump said he’d bring jobs back—mostly for his lawyers.",
     "Trump’s administration: where the Space Force fought for space in the budget.",
-    "Trump’s presidency: where every day was a new covfefe."
+    "Trump’s presidency: where every day was a new covfefe.",
+    // New Cat Jokes (20)
+    "Why was the cat sitting on the computer? Because he wanted to keep an eye on the mouse!",
+    "What do you call a cat who writes music? A decom-purr-ser.",
+    "Why did the cat bring a ladder to the bar? Because he heard the drinks were on the house!",
+    "What’s a cat’s favorite color? Purr-ple.",
+    "Why don’t cats play poker in the jungle? Too many cheetahs!",
+    "What do you call a cat who loves to bowl? An alley cat.",
+    "Why was the cat sitting on the fence? Because he was drunk on catnip!",
+    "What’s a cat’s favorite dessert? Mice cream.",
+    "Why did the cat join a band? Because he had the purr-cussion skills!",
+    "What do you call a cat who can sing? A meow-sician.",
+    "Why did the cat sleep so close to his owner? He wanted to be the little spoon!",
+    "What’s a cat’s favorite game? Hide and pounce.",
+    "Why don’t cats use smartphones? They’re afraid of the paw-parazzi!",
+    "What do you call a cat who’s a detective? Sherlock Paws.",
+    "Why did the cat refuse to play chess? He didn’t want to be a pawn!",
+    "What’s a cat’s favorite TV show? Claw and Order.",
+    "Why did the cat go to school? To improve his purr-fect grades!",
+    "What do you call a cat who loves to swim? A purr-maid.",
+    "Why was the cat embarrassed at the vet? Because he had a hairball in public!",
+    "What do you call a cat who’s always grumpy? A sour-puss.",
+    // New Biden Jokes (20)
+    "Why did Biden bring ice cream to the debate? To sweeten his points!",
+    "What’s Biden’s favorite dance move? The Oval Office shuffle.",
+    "Why did Biden take a nap during the meeting? He was dreaming of unity!",
+    "What does Biden say when he forgets something? 'C’mon, man, I’m 82!'",
+    "Why did Biden start a band? To play some bipartisan beats!",
+    "What’s Biden’s favorite snack at the White House? Corn Pop-corn!",
+    "Why did Biden bring sunglasses to the press conference? To shade the tough questions!",
+    "What’s Biden’s favorite hobby? Sniffing out new policies!",
+    "Why did Biden go to the gym? To work on his executive lifts!",
+    "What does Biden call his dog? Commander-in-Chief!",
+    "Why did Biden write a book? To share his ‘Build Back Better’ bedtime stories!",
+    "What’s Biden’s favorite movie? The President Wears Prada!",
+    "Why did Biden get lost in the White House? He was looking for the Situation Room… again!",
+    "What does Biden say when he’s confused? 'Where’s my aviators? I need to look cool!'",
+    "Why did Biden bring a ladder to the State of the Union? To take things to the next level!",
+    "What’s Biden’s favorite game? Hide and Seek… with his teleprompter!",
+    "Why did Biden start gardening? To plant some bipartisan seeds!",
+    "What does Biden say when he trips? 'I meant to do that—it’s a new policy rollout!'",
+    "Why did Biden join a book club? To discuss ‘The Art of the Deal’… ironically!",
+    "What’s Biden’s favorite holiday? Inauguration Day—every four years!"
 ];
 
 // Function to get a random joke
@@ -369,7 +412,9 @@ function getNextBus(times) {
         const busTime = parseTime(time.arrival);
         if (busTime > now) return busTime;
     }
-    return parseTime(times[0].arrival);
+    const firstBusTomorrow = parseTime(times[0].arrival);
+    firstBusTomorrow.setDate(firstBusTomorrow.getDate() + 1);
+    return firstBusTomorrow;
 }
 
 // Get next 3 buses
@@ -394,6 +439,10 @@ let lastUpdate = Date.now();
 let timeLeft = 0;
 const BUS_INTERVAL = 15 * 60 * 1000; // 15-minute interval for progress bar
 
+// Missed bus state
+let misses = parseInt(localStorage.getItem("misses") || "0");
+let hasShownMissedModal = localStorage.getItem("hasShownMissedModal") === "true";
+
 // Determine the current schedule based on type and day
 function getCurrentSchedule() {
     const schedule = busSchedules[currentRoute];
@@ -406,35 +455,43 @@ function getCurrentSchedule() {
 
 // Update countdown and next buses
 function updateCountdown() {
-    const now = Date.now();
+    const now = new Date();
     const times = getCurrentSchedule();
 
-    if (!nextBus || nextBus < new Date()) {
+    // Ensure nextBus is set and valid
+    if (!nextBus || nextBus <= now) {
         nextBus = getNextBus(times);
         document.getElementById("nextBus").innerText = nextBus.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
         timeLeft = nextBus - now;
     }
 
+    // Update timeLeft
     timeLeft -= (now - lastUpdate);
     lastUpdate = now;
 
+    // Check if a bus was missed
     if (timeLeft <= 0) {
-        let misses = parseInt(localStorage.getItem("misses") || "0") + 1;
-        localStorage.setItem("misses", misses);
-        if (misses >= 3) {
+        misses += 1;
+        localStorage.setItem("misses", misses.toString());
+
+        // Show missed bus modal only if misses >= 3 and it hasn't been shown yet
+        if (misses >= 3 && !hasShownMissedModal) {
             const missedBusModal = document.getElementById("missedBusModal");
             document.getElementById("missedBusCount").innerText = misses;
             missedBusModal.style.display = "block";
+            hasShownMissedModal = true;
+            localStorage.setItem("hasShownMissedModal", "true");
         }
+
+        // Reset nextBus and timeLeft
         nextBus = getNextBus(times);
         document.getElementById("nextBus").innerText = nextBus.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
         timeLeft = nextBus - now;
     }
 
+    // Update timer display
     const minutes = Math.floor(timeLeft / 60000);
     const seconds = Math.floor((timeLeft % 60000) / 1000);
-
-    // Update timer display
     document.getElementById("countdown").innerText = `${minutes}m ${seconds}s`;
 
     // Vibrate when under 30 seconds
@@ -451,6 +508,7 @@ function updateCountdown() {
     const progressPercent = Math.max(0, (1 - timeLeft / BUS_INTERVAL)) * 100;
     document.getElementById("timerProgress").style.width = `${progressPercent}%`;
 
+    // Update next buses
     const nextThree = getNextThreeBuses(times);
     document.getElementById("nextBusesList").innerHTML = nextThree.map(t => `<li>${t.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</li>`).join('');
 }
@@ -629,15 +687,21 @@ document.getElementById("reportIssueBtn").addEventListener("click", () => {
 
 // Missed Bus Modal
 document.getElementById("resetMissedBtn").addEventListener("click", () => {
+    misses = 0;
+    hasShownMissedModal = false;
     localStorage.setItem("misses", "0");
+    localStorage.setItem("hasShownMissedModal", "false");
     document.getElementById("missedBusModal").style.display = "none";
 });
+
 document.getElementById("closeMissedBtn").addEventListener("click", () => {
     document.getElementById("missedBusModal").style.display = "none";
 });
+
 document.querySelector("#missedBusModal .close").addEventListener("click", () => {
     document.getElementById("missedBusModal").style.display = "none";
 });
+
 window.addEventListener("click", (e) => {
     if (e.target === document.getElementById("missedBusModal")) {
         document.getElementById("missedBusModal").style.display = "none";
@@ -647,9 +711,12 @@ window.addEventListener("click", (e) => {
 // Offline Warning
 window.addEventListener('offline', () => {
     document.getElementById("offlineBanner").style.display = "block";
+    adjustHeaderPadding();
 });
+
 window.addEventListener('online', () => {
     document.getElementById("offlineBanner").style.display = "none";
+    adjustHeaderPadding();
 });
 
 // Adjust header padding when offline banner is visible
@@ -657,17 +724,18 @@ function adjustHeaderPadding() {
     const offlineBanner = document.getElementById("offlineBanner");
     const header = document.querySelector(".header");
     const routeSection = document.querySelector(".route-section");
+    const bannerHeight = offlineBanner.offsetHeight || 0; // Dynamically get the banner height
+
     if (offlineBanner.style.display === "block") {
-        header.style.top = "40px";
-        routeSection.style.top = "120px";
+        header.style.top = `${bannerHeight}px`;
+        routeSection.style.top = `${bannerHeight + 60}px`; // 60px is the header height
     } else {
         header.style.top = "0";
         routeSection.style.top = "80px";
     }
 }
-window.addEventListener('offline', adjustHeaderPadding);
-window.addEventListener('online', adjustHeaderPadding);
 
 // Initialize
 setInterval(updateCountdown, 1000);
 updateCountdown();
+adjustHeaderPadding();

@@ -8,6 +8,8 @@
     <link rel="icon" href="https://www.pngall.com/wp-content/uploads/5/Fortnite-Bus-PNG-Image.png">
     <!-- Import Google Fonts for Fortnite-style typography -->
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Import Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- Offline Banner -->
@@ -69,12 +71,18 @@
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
         <button id="refreshBtn" title="Refresh">
-            <span class="button-icon">🔄</span>
-            <span class="button-spinner" style="display: none;">⏳</span>
+            <i class="fas fa-sync-alt button-icon"></i>
+            <i class="fas fa-spinner button-spinner" style="display: none;"></i>
         </button>
-        <button id="scheduleBtn" title="Full Schedule">📅</button>
-        <button id="reportIssueBtn" title="Report Schedule Issue">📝</button>
-        <a href="more.html" class="nav-button" title="More Bus Times">🚌</a>
+        <button id="scheduleBtn" title="Full Schedule">
+            <i class="fas fa-calendar-alt"></i>
+        </button>
+        <button id="reportIssueBtn" title="Report Schedule Issue">
+            <i class="fas fa-exclamation-circle"></i>
+        </button>
+        <a href="more.html" class="nav-button" title="More Bus Times">
+            <i class="fas fa-bus"></i>
+        </a>
     </nav>
 
     <!-- Full Schedule Modal -->

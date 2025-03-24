@@ -1,6 +1,5 @@
 // Jokes Array
 const jokes = [
-    // Existing Jokes
     "Capitalism: where you’re free to succeed… or free to sleep on the street.",
     "I told my boss I need a raise—turns out, the only thing rising is the CEO’s bonus.",
     "Capitalism loves competition, unless you’re competing with the 1%.",
@@ -71,7 +70,6 @@ const jokes = [
     "Trump said he’d bring jobs back—mostly for his lawyers.",
     "Trump’s administration: where the Space Force fought for space in the budget.",
     "Trump’s presidency: where every day was a new covfefe.",
-    // New Cat Jokes (20)
     "Why was the cat sitting on the computer? Because he wanted to keep an eye on the mouse!",
     "What do you call a cat who writes music? A decom-purr-ser.",
     "Why did the cat bring a ladder to the bar? Because he heard the drinks were on the house!",
@@ -92,7 +90,6 @@ const jokes = [
     "What do you call a cat who loves to swim? A purr-maid.",
     "Why was the cat embarrassed at the vet? Because he had a hairball in public!",
     "What do you call a cat who’s always grumpy? A sour-puss.",
-    // New Biden Jokes (20)
     "Why did Biden bring ice cream to the debate? To sweeten his points!",
     "What’s Biden’s favorite dance move? The Oval Office shuffle.",
     "Why did Biden take a nap during the meeting? He was dreaming of unity!",
@@ -725,17 +722,25 @@ function adjustHeaderPadding() {
     const header = document.querySelector(".header");
     const routeSection = document.querySelector(".route-section");
     const bannerHeight = offlineBanner.offsetHeight || 0; // Dynamically get the banner height
+    const headerHeight = header.offsetHeight || 0; // Dynamically get the header height
 
     if (offlineBanner.style.display === "block") {
         header.style.top = `${bannerHeight}px`;
-        routeSection.style.top = `${bannerHeight + 60}px`; // 60px is the header height
+        routeSection.style.top = `${bannerHeight + headerHeight}px`; // Shift route section below header
     } else {
         header.style.top = "0";
-        routeSection.style.top = "80px";
+        routeSection.style.top = `${headerHeight}px`; // Adjust route section to be below header
     }
+
+    // Adjust main content padding to account for the header and banner
+    const main = document.querySelector(".main");
+    main.style.paddingTop = `${bannerHeight + headerHeight + 20}px`; // Add extra padding for spacing
 }
 
 // Initialize
 setInterval(updateCountdown, 1000);
 updateCountdown();
 adjustHeaderPadding();
+
+// Ensure header adjusts on window resize (e.g., if font size changes)
+window.addEventListener('resize', adjustHeaderPadding);

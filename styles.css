@@ -37,13 +37,13 @@ body {
 /* Header */
 .header {
     background-color: #2A3435;
-    padding: 15px;
+    padding: 20px 15px; /* Increased padding to give more space around the title */
     text-align: center;
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 10;
-    border-bottom: 2px solid #00DDEB;
+    border-bottom: 2px solid #00DDEB; /* Check if this border is the "line" */
 }
 
 .header h1 {
